@@ -34,6 +34,7 @@ RUN set -x \
         supervisor \
         vim \
         iputils-ping \
+        composer \
         curl \
         git \
         zip \
@@ -49,7 +50,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN set -x\
     && chown -R push:push /opt/push \
     && cd /opt/push \
-    && sudo -u push php composer.phar install --no-dev --prefer-dist \
+    && sudo -u push composer install \
     && chmod +x /usr/local/bin/entrypoint.sh \
     && chmod +x /usr/local/bin/init.sh
 

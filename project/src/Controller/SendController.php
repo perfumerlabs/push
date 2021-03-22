@@ -14,7 +14,7 @@ class SendController extends LayoutController
             $this->validateNotEmpty($token, 'customer_token');
             $this->validateNotRegex($token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
         }
-//        var_dump(123);exit();
+
         $push = (array)$this->f('push');
 
         $this->validateNotEmpty($push, 'push');
@@ -28,7 +28,6 @@ class SendController extends LayoutController
                 $this->setContent(['errors' => $errors]);
             }
         }catch (\Throwable $e){
-            var_dump($e->getMessage());exit();
             $this->setErrorMessageAndExit($e->getMessage());
         }
     }

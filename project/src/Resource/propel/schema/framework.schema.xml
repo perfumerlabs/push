@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="push" defaultIdMethod="native" namespace="Push\Model">
+    <!-- Perfumer default model schemas -->
+    <!-- Perfumer default model schemas -->
+</database>

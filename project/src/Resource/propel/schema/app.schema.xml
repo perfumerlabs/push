@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="push" defaultIdMethod="native" namespace="Push\Model">
+    <!-- Customer token and they provider tokens -->
+    <table name="push_token" phpName="PushToken">
+        <column name="customer_token" type="varchar" size="255" required="true" primaryKey="true"/>
+        <column name="apple_token" type="varchar" size="255" />
+        <column name="google_token" type="varchar" size="255" />
+        <column name="huawei_token" type="varchar" size="255" />
+        <column name="web_token" type="varchar" size="255" />
+    </table>
+</database>

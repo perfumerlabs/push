@@ -1,0 +1,43 @@
+{
+    "name": "temirlankasen/push",
+    "type": "library",
+    "description": "Docker container for send push on all devices with one api",
+    "authors": [
+        {
+            "name": "Temirlan Kasen",
+            "email": "temirlankasen@gmail.com",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "php": "7.4.*",
+        "perfumer/framework": "0.9.7",
+        "propel/propel": "2.0.0-alpha11",
+        "envms/fluentpdo": "2.*",
+        "pwfisher/command-line-php": "dev-master",
+        "symfony/console": "5.*",
+        "symfony/http-foundation": "5.*",
+        "nikic/fast-route": "1.*",
+        "guzzlehttp/guzzle": "*",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "sl4mmer/phpcent": "v2.0.0",
+        "google/apiclient": "^2.7",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "filp/whoops": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Project\\": "src/",
+            "Push\\": "src/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "platform":{
+            "php":"7.4"
+        }
+    }
+}

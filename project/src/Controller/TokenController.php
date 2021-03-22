@@ -20,6 +20,7 @@ class TokenController extends LayoutController
         $this->validateNotEmpty($provider, 'provider');
         $this->validateNotEmpty($token, 'token');
         $this->validateOnConst($provider, 'provider', PushToken::getProviders());
+        $this->validateNotRegex($customer_token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
 
         $con = Propel::getWriteConnection(PushTokenTableMap::DATABASE_NAME);
         $con->beginTransaction();
@@ -47,7 +48,7 @@ class TokenController extends LayoutController
         $this->validateNotEmpty($customer_token, 'customer_token');
         $this->validateNotEmpty($provider, 'provider');
         $this->validateOnConst($provider, 'provider', PushToken::getProviders());
-        $this->validateRegex($customer_token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
+        $this->validateNotRegex($customer_token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
 
         $con = Propel::getWriteConnection(PushTokenTableMap::DATABASE_NAME);
         $con->beginTransaction();

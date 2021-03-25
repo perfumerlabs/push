@@ -33,13 +33,16 @@ class Apple extends Layout implements Provider
             'aps' => [
                 'alert' => [
                     'title' => $push['title'],
-                    'subtitle'  => $push['subtitle'],
                     'body'  => $push['text'],
                 ],
                 'sound' => $push['sound'] ?? 'default'
             ],
             'payload' => $push['payload']
         ];
+
+        if($push['subtitle'] ?? null){
+            $data['aps']['alert']['subtitle'] = $push['subtitle'];
+        }
 
         try {
             foreach ($tokens as $token) {

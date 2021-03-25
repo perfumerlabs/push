@@ -42,6 +42,14 @@ class Google extends Layout implements Provider
         $title = $push['title'] ?? null;
         $text = $push['text'] ?? null;
 
+        $payload = [];
+
+        if($push['payload'] ?? false){
+            foreach ($push['payload'] as $key => $item){
+                $payload[$key] = !is_string($item) ? (is_array($item) ? json_encode($item) : (string)$item) : $item;
+            }
+        }
+
         $client = new \Google_Service_FirebaseCloudMessaging($this->getClient());
 
         $notification = new \Google_Service_FirebaseCloudMessaging_Notification();
@@ -55,12 +63,12 @@ class Google extends Layout implements Provider
         $android_notification->setBody($text);
 
         $android = new \Google_Service_FirebaseCloudMessaging_AndroidConfig();
-        $android->setData($push['payload'] ?? []);
+        $android->setData($payload);
         $android->setNotification($android_notification);
 
         $message = new \Google_Service_FirebaseCloudMessaging_Message();
         $message->setNotification($notification);
-        $message->setData($push['payload'] ?? []);
+        $message->setData($payload);
         $message->setAndroid($android);
 
         foreach ($tokens as $token){

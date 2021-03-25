@@ -72,12 +72,16 @@ class Google extends Layout implements Provider
         $message->setAndroid($android);
 
         foreach ($tokens as $token){
-            $message->setToken($token);
+            try {
+                $message->setToken($token);
 
-            $send_body = new \Google_Service_FirebaseCloudMessaging_SendMessageRequest();
-            $send_body->setMessage($message);
+                $send_body = new \Google_Service_FirebaseCloudMessaging_SendMessageRequest();
+                $send_body->setMessage($message);
 
-            $client->projects_messages->send('projects/' . $this->json_config['project_id'], $send_body);
+                $client->projects_messages->send('projects/' . $this->json_config['project_id'], $send_body);
+            }catch (\Throwable $e){
+                error_log("GOOGLE $token " . $e->getMessage());
+            }
         }
     }
 }

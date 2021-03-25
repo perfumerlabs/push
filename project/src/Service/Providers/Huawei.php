@@ -89,6 +89,7 @@ class Huawei extends Layout implements Provider
             ]);
 
         }catch (\Throwable $e){
+            error_log("HUAWEI " . $e->getMessage());
         }
     }
 }

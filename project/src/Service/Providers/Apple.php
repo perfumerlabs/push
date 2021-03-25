@@ -44,8 +44,8 @@ class Apple extends Layout implements Provider
             $data['aps']['alert']['subtitle'] = $push['subtitle'];
         }
 
-        try {
-            foreach ($tokens as $token) {
+        foreach ($tokens as $token) {
+            try {
                 (new Client())->post($this->getUrl() . $token, [
                     'verify' => false,
                     'version' => 2.0,
@@ -57,8 +57,9 @@ class Apple extends Layout implements Provider
                         'apns-topic' => $this->bundle_id
                     ],
                 ]);
+            } catch (\Throwable $e) {
+                error_log("APPLE $token " . $e->getMessage());
             }
-        }catch (\Throwable $e){
         }
     }
 }

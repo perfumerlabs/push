@@ -50,7 +50,7 @@ class Apple extends Layout implements Provider
                     'verify' => false,
                     'version' => 2.0,
                     'json' => $data,
-                    'cert' => [$this->getFileDir()],
+                    'cert' => [$this->getFileDir(), null],
                     'headers' => [
                         'Content-Type' => 'application/json',
                         'apns-push-type' => 'alert',

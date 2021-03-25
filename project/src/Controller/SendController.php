@@ -28,7 +28,6 @@ class SendController extends LayoutController
                 $this->setContent(['errors' => $errors]);
             }
         }catch (\Throwable $e){
-            $this->setErrorMessageAndExit($e->getMessage());
         }
     }
 }

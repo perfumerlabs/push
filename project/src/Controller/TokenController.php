@@ -14,11 +14,8 @@ class TokenController extends LayoutController
     public function get()
     {
         $customer_token = $this->f('customer_token');
-        $provider = $this->f('provider');
 
         $this->validateNotEmpty($customer_token, 'customer_token');
-        $this->validateNotEmpty($provider, 'provider');
-        $this->validateOnConst($provider, 'provider', PushToken::getProviders());
         $this->validateNotRegex($customer_token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
 
         try {

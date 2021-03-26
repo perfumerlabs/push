@@ -5,6 +5,7 @@ return [
         'shared' => true,
         'init' => function(\Perfumer\Component\Container\Container $container) {
             return \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
+                $r->addRoute('GET', '/token', 'token.get');
                 $r->addRoute('POST', '/token', 'token.post');
                 $r->addRoute('DELETE', '/token', 'token.delete');
                 $r->addRoute('POST', '/send', 'send.post');
@@ -17,7 +18,7 @@ return [
         'class' => 'Perfumer\\Framework\\Router\\Http\\FastRouteRouter',
         'arguments' => ['#gateway.http', '#fast_router', [
             'data_type' => 'json',
-            'allowed_actions' => ['post', 'delete'],
+            'allowed_actions' => ['post', 'delete', 'get'],
         ]]
     ],
 

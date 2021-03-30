@@ -8,26 +8,43 @@ class SendController extends LayoutController
 {
     public function post()
     {
-        $customer_tokens = $this->f('customer_tokens');
+        $users = $this->f('user');
 
-        foreach ($customer_tokens as $token){
-            $this->validateNotEmpty($token, 'customer_token');
-            $this->validateNotRegex($token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
+        $this->validateNotEmpty($users, 'user');
+
+        $users = is_array($users) ? $users : [$users];
+
+        foreach ($users as $token){
+            $this->validateNotEmpty($token, 'user');
+            $this->validateNotRegex($token, 'user', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
         }
 
-        $push = (array)$this->f('push');
+        $title = (string)$this->f('title');
+        $text = (string)$this->f('text');
+        $image = (string)$this->f('image');
+        $payload = (array)$this->f('payload');
+        $sound = (string)$this->f('sound');
+        $this->validateNotEmpty($title, 'title');
+        $this->validateNotEmpty($text, 'text');
 
-        $this->validateNotEmpty($push, 'push');
+        $push = [
+            'title' => $title,
+            'text' => $text,
+            'image' => $image,
+            'payload' => $payload,
+            'sound' => $sound,
+        ];
 
         try {
             /** @var \Push\Facade\TokenFacade $token_facade */
             $token_facade = $this->s('facade.token');
-            $errors = $token_facade->sendPush($customer_tokens, $push);
+            $errors = $token_facade->sendPush($users, $push);
 
             if($errors){
                 $this->setContent(['errors' => $errors]);
             }
         }catch (\Throwable $e){
+            var_dump($e->getMessage());
         }
     }
 }

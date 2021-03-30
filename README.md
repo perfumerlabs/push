@@ -43,6 +43,8 @@ Environment variables
 - PG_PASSWORD - PostgreSQL user password. Required.
 - PHP_PM_MAX_CHILDREN - number of FPM workers. Default value is 10.
 - PHP_PM_MAX_REQUESTS - number of FPM max requests. Default value is 500.
+- ADMIN_USER - login for sign in admin panel. Optional.
+- ADMIN_PASSWORD - password for sign in admin panel. Optional.
 
 Volumes
 =======
@@ -68,11 +70,11 @@ After setup there are 1 predefined table in database:
 
 Registry of collections. Fields:
 
-- customer_token [string] - User uniq token.
-- apple_token [string] - apple push token.
-- google_token [string] - google push token.
-- huawei_token [string] - huawei push token.
-- web_token [string] - web push token.
+- user [string] - User uniq token.
+- apple [string] - apple push token.
+- google [string] - google push token.
+- huawei [string] - huawei push token.
+- web [string] - web push token.
 
 API Reference
 =============
@@ -82,7 +84,7 @@ API Reference
 `POST /token`
 
 Parameters (json):
-- customer_token [string,required] - User uniq token.
+- user [string,required] - User uniq token.
 - provider [string,required] - provider name. One of [apple, google, huawei, web].
 - token [string,required] - push token.
 
@@ -90,7 +92,7 @@ Request example:
 
 ```json
 {
-  "customer_token" :  "216952s",
+  "user" :  "216952s",
   "provider": "apple",
   "token": "10fc1ce7defde41b3c04a083f9c03873095292d75090d95fc2002a83e128acdc"
 }
@@ -102,7 +104,10 @@ Response example:
 {
     "status": true,
     "content": {
-      "token": "10fc1ce7defde41b3c04a083f9c03873095292d75090d95fc2002a83e128acdc"
+      "token": {
+          "user" :  "216952s",
+          "provider": "apple",
+          "token": "10fc1ce7defde41b3c04a083f9c03873095292d75090d95fc2002a83e128acdc"}
     } 
 }
 ```
@@ -112,14 +117,14 @@ Response example:
 `DELETE /token`
 
 Parameters (json):
-- customer_token [string,required] - User uniq token.
+- user [string,required] - User uniq token.
 - provider [string,required] - provider name. One of [apple, google, huawei, web].
 
 Request example:
 
 ```json
 {
-  "customer_token" :  "216952s",
+  "user" :  "216952s",
   "provider": "apple"
 }
 ```
@@ -137,28 +142,27 @@ Response example:
 `POST /send`
 
 Request parameters (json):
-- customer_tokens [array,required] - array of customer tokens.
-- push [object,required] - push notification object.
-- push.title [string,required] - title text.
-- push.subtitle [string,optional] - subtitle text.
-- push.text [string,required] - body text.
-- push.image [string,required] - image url.
-- push.payload [object,required] - object of some data.
+- user [array|string,required] - array or string of user.
+- title [string,required] - title text.
+- subtitle [string,optional] - subtitle text.
+- text [string,required] - body text.
+- image [string,required] - image url. Apple not allowed.
+- payload [object,optional] - object of some data.
+- sound [string,optional] - object of some data.
 
 Request example:
 
 ```json
 {
-  "customer_tokens" :  ["5850c", "723442c", "216952s"],
-  "push": {
+  "user" :  ["test1", "test2", "test3"],
     "title": "test",
     "text": "test",
     "image": "https://test.kz/test.png",
     "payload": {
       "event": "test",
       "track": "test"
-    }
-  }
+    },
+    "sound": "test"
 }
 ```
 

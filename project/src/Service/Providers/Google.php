@@ -56,12 +56,6 @@ class Google extends Layout implements Provider
 
         $client = new \Google_Service_FirebaseCloudMessaging($this->getClient());
 
-
-        $android_notification = new \Google_Service_FirebaseCloudMessaging_AndroidNotification();
-        $android_notification->setImage($image);
-        $android_notification->setTitle($title);
-        $android_notification->setBody($text);
-
         $android = new \Google_Service_FirebaseCloudMessaging_AndroidConfig();
         $android->setData($payload);
 

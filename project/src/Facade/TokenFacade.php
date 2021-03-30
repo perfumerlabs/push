@@ -15,27 +15,27 @@ class TokenFacade
     /**
      * @var TokenRepository
      */
-    protected $repository;
+    protected TokenRepository $repository;
 
     /**
      * @var TokenDomain
      */
-    protected $domain;
+    protected TokenDomain $domain;
 
     /**
      * @var Apple
      */
-    protected $apple;
+    protected Apple $apple;
 
     /**
      * @var Google
      */
-    protected $google;
+    protected Google $google;
 
     /**
      * @var Huawei
      */
-    protected $huawei;
+    protected Huawei $huawei;
 
     public function __construct(TokenDomain $token_domain, TokenRepository $token_repository, Google $google, Huawei $huawei, Apple $apple)
     {
@@ -63,10 +63,10 @@ class TokenFacade
         $errors = [];
 
         foreach (PushToken::getProviders() as $provider){
-            if($push_tokens[$provider . '_token']){
+            if($push_tokens[$provider]){
                 /** @var \Push\Service\Providers\Provider $provider_service */
                 $provider_service = $this->$provider;
-                $error = $provider_service->send($push_tokens[$provider . '_token'], $push);
+                $error = $provider_service->send($push_tokens[$provider], $push);
                 if($error){
                     $errors[$provider] = $error;
                 }

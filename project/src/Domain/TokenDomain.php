@@ -23,19 +23,19 @@ class TokenDomain
         return $this->repository;
     }
 
-    public function saveToken($customer_token, $provider, $token)
+    public function saveToken($user, $provider, $token)
     {
-        $push_token = $this->getRepository()->getOneByCustomerToken($customer_token);
+        $push_token = $this->getRepository()->getOneByCustomerToken($user);
 
-        $push_token->fromArray([$provider . '_token' => $token], PushTokenTableMap::TYPE_FIELDNAME);
+        $push_token->fromArray([$provider => $token], PushTokenTableMap::TYPE_FIELDNAME);
         $push_token->save();
     }
 
-    public function removeToken($customer_token, $provider)
+    public function removeToken($user, $provider)
     {
-        $push_token = $this->getRepository()->getOneByCustomerToken($customer_token);
+        $push_token = $this->getRepository()->getOneByCustomerToken($user);
 
-        $push_token->fromArray([$provider . '_token' => null], PushTokenTableMap::TYPE_FIELDNAME);
+        $push_token->fromArray([$provider => null], PushTokenTableMap::TYPE_FIELDNAME);
         $push_token->save();
     }
 }

@@ -13,20 +13,21 @@ class TokenController extends LayoutController
 {
     public function get()
     {
-        $customer_token = $this->f('customer_token');
+        $user = $this->f('user');
 
-        $this->validateNotEmpty($customer_token, 'customer_token');
-        $this->validateNotRegex($customer_token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
+        $this->validateNotEmpty($user, 'user');
+        $this->validateNotRegex($user, 'user', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
 
         try {
             /** @var TokenRepository $repository */
             $repository = $this->s('repository.token');
-            $customer = $repository->getOneByCustomerToken($customer_token);
+            $customer = $repository->getOneByCustomerToken($user);
 
             $this->setContent(['tokens' => [
-                PushToken::PROVIDER_APPLE => $customer->getAppleToken(),
-                PushToken::PROVIDER_GOOGLE => $customer->getGoogleToken(),
-                PushToken::PROVIDER_HUAWEI => $customer->getHuaweiToken(),
+                PushToken::PROVIDER_APPLE => $customer->getApple(),
+                PushToken::PROVIDER_GOOGLE => $customer->getGoogle(),
+                PushToken::PROVIDER_HUAWEI => $customer->getHuawei(),
+                PushToken::PROVIDER_WEB => $customer->getWeb(),
             ]]);
         } catch (\Throwable $e) {
             $this->forward('error', 'internalServerError', [$e]);
@@ -35,15 +36,15 @@ class TokenController extends LayoutController
 
     public function post()
     {
-        $customer_token = $this->f('customer_token');
+        $user = $this->f('user');
         $provider = $this->f('provider');
         $token = $this->f('token');
 
-        $this->validateNotEmpty($customer_token, 'customer_token');
+        $this->validateNotEmpty($user, 'user');
         $this->validateNotEmpty($provider, 'provider');
         $this->validateNotEmpty($token, 'token');
         $this->validateOnConst($provider, 'provider', PushToken::getProviders());
-        $this->validateNotRegex($customer_token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
+        $this->validateNotRegex($user, 'user', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
 
         $con = Propel::getWriteConnection(PushTokenTableMap::DATABASE_NAME);
         $con->beginTransaction();
@@ -51,9 +52,13 @@ class TokenController extends LayoutController
         try {
             /** @var TokenDomain $domain */
             $domain = $this->s('domain.token');
-            $domain->saveToken($customer_token, $provider, $token);
+            $domain->saveToken($user, $provider, $token);
 
-            $this->setContent(['token' => $token]);
+            $this->setContent(['token' => [
+                'user' => $user,
+                'provider' => $provider,
+                'token' => $token,
+            ]]);
 
             $con->commit();
         } catch (\Throwable $e) {
@@ -65,13 +70,13 @@ class TokenController extends LayoutController
 
     public function delete()
     {
-        $customer_token = $this->f('customer_token');
+        $user = $this->f('user');
         $provider = $this->f('provider');
 
-        $this->validateNotEmpty($customer_token, 'customer_token');
+        $this->validateNotEmpty($user, 'user');
         $this->validateNotEmpty($provider, 'provider');
         $this->validateOnConst($provider, 'provider', PushToken::getProviders());
-        $this->validateNotRegex($customer_token, 'customer_token', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
+        $this->validateNotRegex($user, 'user', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
 
         $con = Propel::getWriteConnection(PushTokenTableMap::DATABASE_NAME);
         $con->beginTransaction();
@@ -79,7 +84,7 @@ class TokenController extends LayoutController
         try {
             /** @var TokenDomain $domain */
             $domain = $this->s('domain.token');
-            $domain->removeToken($customer_token, $provider);
+            $domain->removeToken($user, $provider);
 
             $con->commit();
         } catch (\Throwable $e) {

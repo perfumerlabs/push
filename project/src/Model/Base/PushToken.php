@@ -60,39 +60,39 @@ abstract class PushToken implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the customer_token field.
+     * The value for the user field.
      *
      * @var        string
      */
-    protected $customer_token;
+    protected $user;
 
     /**
-     * The value for the apple_token field.
+     * The value for the apple field.
      *
      * @var        string
      */
-    protected $apple_token;
+    protected $apple;
 
     /**
-     * The value for the google_token field.
+     * The value for the google field.
      *
      * @var        string
      */
-    protected $google_token;
+    protected $google;
 
     /**
-     * The value for the huawei_token field.
+     * The value for the huawei field.
      *
      * @var        string
      */
-    protected $huawei_token;
+    protected $huawei;
 
     /**
-     * The value for the web_token field.
+     * The value for the web field.
      *
      * @var        string
      */
-    protected $web_token;
+    protected $web;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -328,154 +328,154 @@ abstract class PushToken implements ActiveRecordInterface
     }
 
     /**
-     * Get the [customer_token] column value.
+     * Get the [user] column value.
      *
      * @return string
      */
-    public function getCustomerToken()
+    public function getUser()
     {
-        return $this->customer_token;
+        return $this->user;
     }
 
     /**
-     * Get the [apple_token] column value.
+     * Get the [apple] column value.
      *
      * @return string
      */
-    public function getAppleToken()
+    public function getApple()
     {
-        return $this->apple_token;
+        return $this->apple;
     }
 
     /**
-     * Get the [google_token] column value.
+     * Get the [google] column value.
      *
      * @return string
      */
-    public function getGoogleToken()
+    public function getGoogle()
     {
-        return $this->google_token;
+        return $this->google;
     }
 
     /**
-     * Get the [huawei_token] column value.
+     * Get the [huawei] column value.
      *
      * @return string
      */
-    public function getHuaweiToken()
+    public function getHuawei()
     {
-        return $this->huawei_token;
+        return $this->huawei;
     }
 
     /**
-     * Get the [web_token] column value.
+     * Get the [web] column value.
      *
      * @return string
      */
-    public function getWebToken()
+    public function getWeb()
     {
-        return $this->web_token;
+        return $this->web;
     }
 
     /**
-     * Set the value of [customer_token] column.
+     * Set the value of [user] column.
      *
      * @param string $v New value
      * @return $this|\Push\Model\PushToken The current object (for fluent API support)
      */
-    public function setCustomerToken($v)
+    public function setUser($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->customer_token !== $v) {
-            $this->customer_token = $v;
-            $this->modifiedColumns[PushTokenTableMap::COL_CUSTOMER_TOKEN] = true;
+        if ($this->user !== $v) {
+            $this->user = $v;
+            $this->modifiedColumns[PushTokenTableMap::COL_USER] = true;
         }
 
         return $this;
-    } // setCustomerToken()
+    } // setUser()
 
     /**
-     * Set the value of [apple_token] column.
+     * Set the value of [apple] column.
      *
      * @param string|null $v New value
      * @return $this|\Push\Model\PushToken The current object (for fluent API support)
      */
-    public function setAppleToken($v)
+    public function setApple($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->apple_token !== $v) {
-            $this->apple_token = $v;
-            $this->modifiedColumns[PushTokenTableMap::COL_APPLE_TOKEN] = true;
+        if ($this->apple !== $v) {
+            $this->apple = $v;
+            $this->modifiedColumns[PushTokenTableMap::COL_APPLE] = true;
         }
 
         return $this;
-    } // setAppleToken()
+    } // setApple()
 
     /**
-     * Set the value of [google_token] column.
+     * Set the value of [google] column.
      *
      * @param string|null $v New value
      * @return $this|\Push\Model\PushToken The current object (for fluent API support)
      */
-    public function setGoogleToken($v)
+    public function setGoogle($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->google_token !== $v) {
-            $this->google_token = $v;
-            $this->modifiedColumns[PushTokenTableMap::COL_GOOGLE_TOKEN] = true;
+        if ($this->google !== $v) {
+            $this->google = $v;
+            $this->modifiedColumns[PushTokenTableMap::COL_GOOGLE] = true;
         }
 
         return $this;
-    } // setGoogleToken()
+    } // setGoogle()
 
     /**
-     * Set the value of [huawei_token] column.
+     * Set the value of [huawei] column.
      *
      * @param string|null $v New value
      * @return $this|\Push\Model\PushToken The current object (for fluent API support)
      */
-    public function setHuaweiToken($v)
+    public function setHuawei($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->huawei_token !== $v) {
-            $this->huawei_token = $v;
-            $this->modifiedColumns[PushTokenTableMap::COL_HUAWEI_TOKEN] = true;
+        if ($this->huawei !== $v) {
+            $this->huawei = $v;
+            $this->modifiedColumns[PushTokenTableMap::COL_HUAWEI] = true;
         }
 
         return $this;
-    } // setHuaweiToken()
+    } // setHuawei()
 
     /**
-     * Set the value of [web_token] column.
+     * Set the value of [web] column.
      *
      * @param string|null $v New value
      * @return $this|\Push\Model\PushToken The current object (for fluent API support)
      */
-    public function setWebToken($v)
+    public function setWeb($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->web_token !== $v) {
-            $this->web_token = $v;
-            $this->modifiedColumns[PushTokenTableMap::COL_WEB_TOKEN] = true;
+        if ($this->web !== $v) {
+            $this->web = $v;
+            $this->modifiedColumns[PushTokenTableMap::COL_WEB] = true;
         }
 
         return $this;
-    } // setWebToken()
+    } // setWeb()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -513,20 +513,20 @@ abstract class PushToken implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PushTokenTableMap::translateFieldName('CustomerToken', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->customer_token = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PushTokenTableMap::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->user = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PushTokenTableMap::translateFieldName('AppleToken', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->apple_token = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PushTokenTableMap::translateFieldName('Apple', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->apple = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PushTokenTableMap::translateFieldName('GoogleToken', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->google_token = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PushTokenTableMap::translateFieldName('Google', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->google = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PushTokenTableMap::translateFieldName('HuaweiToken', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->huawei_token = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PushTokenTableMap::translateFieldName('Huawei', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->huawei = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : PushTokenTableMap::translateFieldName('WebToken', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->web_token = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : PushTokenTableMap::translateFieldName('Web', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->web = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -732,20 +732,20 @@ abstract class PushToken implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(PushTokenTableMap::COL_CUSTOMER_TOKEN)) {
-            $modifiedColumns[':p' . $index++]  = 'customer_token';
+        if ($this->isColumnModified(PushTokenTableMap::COL_USER)) {
+            $modifiedColumns[':p' . $index++]  = 'user';
         }
-        if ($this->isColumnModified(PushTokenTableMap::COL_APPLE_TOKEN)) {
-            $modifiedColumns[':p' . $index++]  = 'apple_token';
+        if ($this->isColumnModified(PushTokenTableMap::COL_APPLE)) {
+            $modifiedColumns[':p' . $index++]  = 'apple';
         }
-        if ($this->isColumnModified(PushTokenTableMap::COL_GOOGLE_TOKEN)) {
-            $modifiedColumns[':p' . $index++]  = 'google_token';
+        if ($this->isColumnModified(PushTokenTableMap::COL_GOOGLE)) {
+            $modifiedColumns[':p' . $index++]  = 'google';
         }
-        if ($this->isColumnModified(PushTokenTableMap::COL_HUAWEI_TOKEN)) {
-            $modifiedColumns[':p' . $index++]  = 'huawei_token';
+        if ($this->isColumnModified(PushTokenTableMap::COL_HUAWEI)) {
+            $modifiedColumns[':p' . $index++]  = 'huawei';
         }
-        if ($this->isColumnModified(PushTokenTableMap::COL_WEB_TOKEN)) {
-            $modifiedColumns[':p' . $index++]  = 'web_token';
+        if ($this->isColumnModified(PushTokenTableMap::COL_WEB)) {
+            $modifiedColumns[':p' . $index++]  = 'web';
         }
 
         $sql = sprintf(
@@ -758,20 +758,20 @@ abstract class PushToken implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'customer_token':
-                        $stmt->bindValue($identifier, $this->customer_token, PDO::PARAM_STR);
+                    case 'user':
+                        $stmt->bindValue($identifier, $this->user, PDO::PARAM_STR);
                         break;
-                    case 'apple_token':
-                        $stmt->bindValue($identifier, $this->apple_token, PDO::PARAM_STR);
+                    case 'apple':
+                        $stmt->bindValue($identifier, $this->apple, PDO::PARAM_STR);
                         break;
-                    case 'google_token':
-                        $stmt->bindValue($identifier, $this->google_token, PDO::PARAM_STR);
+                    case 'google':
+                        $stmt->bindValue($identifier, $this->google, PDO::PARAM_STR);
                         break;
-                    case 'huawei_token':
-                        $stmt->bindValue($identifier, $this->huawei_token, PDO::PARAM_STR);
+                    case 'huawei':
+                        $stmt->bindValue($identifier, $this->huawei, PDO::PARAM_STR);
                         break;
-                    case 'web_token':
-                        $stmt->bindValue($identifier, $this->web_token, PDO::PARAM_STR);
+                    case 'web':
+                        $stmt->bindValue($identifier, $this->web, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -829,19 +829,19 @@ abstract class PushToken implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getCustomerToken();
+                return $this->getUser();
                 break;
             case 1:
-                return $this->getAppleToken();
+                return $this->getApple();
                 break;
             case 2:
-                return $this->getGoogleToken();
+                return $this->getGoogle();
                 break;
             case 3:
-                return $this->getHuaweiToken();
+                return $this->getHuawei();
                 break;
             case 4:
-                return $this->getWebToken();
+                return $this->getWeb();
                 break;
             default:
                 return null;
@@ -872,11 +872,11 @@ abstract class PushToken implements ActiveRecordInterface
         $alreadyDumpedObjects['PushToken'][$this->hashCode()] = true;
         $keys = PushTokenTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getCustomerToken(),
-            $keys[1] => $this->getAppleToken(),
-            $keys[2] => $this->getGoogleToken(),
-            $keys[3] => $this->getHuaweiToken(),
-            $keys[4] => $this->getWebToken(),
+            $keys[0] => $this->getUser(),
+            $keys[1] => $this->getApple(),
+            $keys[2] => $this->getGoogle(),
+            $keys[3] => $this->getHuawei(),
+            $keys[4] => $this->getWeb(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -917,19 +917,19 @@ abstract class PushToken implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setCustomerToken($value);
+                $this->setUser($value);
                 break;
             case 1:
-                $this->setAppleToken($value);
+                $this->setApple($value);
                 break;
             case 2:
-                $this->setGoogleToken($value);
+                $this->setGoogle($value);
                 break;
             case 3:
-                $this->setHuaweiToken($value);
+                $this->setHuawei($value);
                 break;
             case 4:
-                $this->setWebToken($value);
+                $this->setWeb($value);
                 break;
         } // switch()
 
@@ -958,19 +958,19 @@ abstract class PushToken implements ActiveRecordInterface
         $keys = PushTokenTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setCustomerToken($arr[$keys[0]]);
+            $this->setUser($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setAppleToken($arr[$keys[1]]);
+            $this->setApple($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setGoogleToken($arr[$keys[2]]);
+            $this->setGoogle($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setHuaweiToken($arr[$keys[3]]);
+            $this->setHuawei($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setWebToken($arr[$keys[4]]);
+            $this->setWeb($arr[$keys[4]]);
         }
     }
 
@@ -1013,20 +1013,20 @@ abstract class PushToken implements ActiveRecordInterface
     {
         $criteria = new Criteria(PushTokenTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(PushTokenTableMap::COL_CUSTOMER_TOKEN)) {
-            $criteria->add(PushTokenTableMap::COL_CUSTOMER_TOKEN, $this->customer_token);
+        if ($this->isColumnModified(PushTokenTableMap::COL_USER)) {
+            $criteria->add(PushTokenTableMap::COL_USER, $this->user);
         }
-        if ($this->isColumnModified(PushTokenTableMap::COL_APPLE_TOKEN)) {
-            $criteria->add(PushTokenTableMap::COL_APPLE_TOKEN, $this->apple_token);
+        if ($this->isColumnModified(PushTokenTableMap::COL_APPLE)) {
+            $criteria->add(PushTokenTableMap::COL_APPLE, $this->apple);
         }
-        if ($this->isColumnModified(PushTokenTableMap::COL_GOOGLE_TOKEN)) {
-            $criteria->add(PushTokenTableMap::COL_GOOGLE_TOKEN, $this->google_token);
+        if ($this->isColumnModified(PushTokenTableMap::COL_GOOGLE)) {
+            $criteria->add(PushTokenTableMap::COL_GOOGLE, $this->google);
         }
-        if ($this->isColumnModified(PushTokenTableMap::COL_HUAWEI_TOKEN)) {
-            $criteria->add(PushTokenTableMap::COL_HUAWEI_TOKEN, $this->huawei_token);
+        if ($this->isColumnModified(PushTokenTableMap::COL_HUAWEI)) {
+            $criteria->add(PushTokenTableMap::COL_HUAWEI, $this->huawei);
         }
-        if ($this->isColumnModified(PushTokenTableMap::COL_WEB_TOKEN)) {
-            $criteria->add(PushTokenTableMap::COL_WEB_TOKEN, $this->web_token);
+        if ($this->isColumnModified(PushTokenTableMap::COL_WEB)) {
+            $criteria->add(PushTokenTableMap::COL_WEB, $this->web);
         }
 
         return $criteria;
@@ -1045,7 +1045,7 @@ abstract class PushToken implements ActiveRecordInterface
     public function buildPkeyCriteria()
     {
         $criteria = ChildPushTokenQuery::create();
-        $criteria->add(PushTokenTableMap::COL_CUSTOMER_TOKEN, $this->customer_token);
+        $criteria->add(PushTokenTableMap::COL_USER, $this->user);
 
         return $criteria;
     }
@@ -1058,7 +1058,7 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = null !== $this->getCustomerToken();
+        $validPk = null !== $this->getUser();
 
         $validPrimaryKeyFKs = 0;
         $primaryKeyFKs = [];
@@ -1078,18 +1078,18 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function getPrimaryKey()
     {
-        return $this->getCustomerToken();
+        return $this->getUser();
     }
 
     /**
-     * Generic method to set the primary key (customer_token column).
+     * Generic method to set the primary key (user column).
      *
      * @param       string $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
     {
-        $this->setCustomerToken($key);
+        $this->setUser($key);
     }
 
     /**
@@ -1098,7 +1098,7 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return null === $this->getCustomerToken();
+        return null === $this->getUser();
     }
 
     /**
@@ -1114,11 +1114,11 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setCustomerToken($this->getCustomerToken());
-        $copyObj->setAppleToken($this->getAppleToken());
-        $copyObj->setGoogleToken($this->getGoogleToken());
-        $copyObj->setHuaweiToken($this->getHuaweiToken());
-        $copyObj->setWebToken($this->getWebToken());
+        $copyObj->setUser($this->getUser());
+        $copyObj->setApple($this->getApple());
+        $copyObj->setGoogle($this->getGoogle());
+        $copyObj->setHuawei($this->getHuawei());
+        $copyObj->setWeb($this->getWeb());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1153,11 +1153,11 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->customer_token = null;
-        $this->apple_token = null;
-        $this->google_token = null;
-        $this->huawei_token = null;
-        $this->web_token = null;
+        $this->user = null;
+        $this->apple = null;
+        $this->google = null;
+        $this->huawei = null;
+        $this->web = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

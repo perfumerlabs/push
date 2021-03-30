@@ -7,40 +7,40 @@ use Push\Model\PushTokenQuery;
 
 class TokenRepository
 {
-    public function getOneByCustomerToken($customer_token)
+    public function getOneByCustomerToken($user)
     {
         return PushTokenQuery::create()
-            ->filterByCustomerToken($customer_token)
+            ->filterByUser($user)
             ->findOneOrCreate();
     }
 
-    public function getPushTokens(array $customer_tokens)
+    public function getPushTokens(array $users)
     {
         $push_tokens = PushTokenQuery::create()
-            ->filterByCustomerToken($customer_tokens, Criteria::IN)
-            ->select(['google_token', 'huawei_token', 'apple_token', 'web_token'])
+            ->filterByUser($users, Criteria::IN)
+            ->select(['google', 'huawei', 'apple', 'web'])
             ->find()
             ->getData();
 
         $result = [
-            'google_token' => [],
-            'huawei_token' => [],
-            'apple_token' => [],
-            'web_token' => [],
+            'google' => [],
+            'huawei' => [],
+            'apple' => [],
+            'web' => [],
         ];
 
         foreach ($push_tokens as $tokens){
-            if($tokens['google_token']){
-                $result['google_token'][] = $tokens['google_token'];
+            if($tokens['google']){
+                $result['google'][] = $tokens['google'];
             }
-            if($tokens['huawei_token']){
-                $result['huawei_token'][] = $tokens['huawei_token'];
+            if($tokens['huawei']){
+                $result['huawei'][] = $tokens['huawei'];
             }
-            if($tokens['apple_token']){
-                $result['apple_token'][] = $tokens['apple_token'];
+            if($tokens['apple']){
+                $result['apple'][] = $tokens['apple'];
             }
-            if($tokens['web_token']){
-                $result['web_token'][] = $tokens['web_token'];
+            if($tokens['web']){
+                $result['web'][] = $tokens['web'];
             }
         }
 

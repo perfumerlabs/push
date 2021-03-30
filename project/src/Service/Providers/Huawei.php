@@ -55,26 +55,35 @@ class Huawei extends Layout implements Provider
 
     public function send(array $tokens, array $push)
     {
+        $data = array_merge($push['payload'], [
+            'title' => $push['title'],
+            'text' => $push['text'],
+            'image' => $push['image'],
+            'sound' => $push['sound'],
+        ]);
+
         $data = [
             'validate_only' => false,
             'message' => [
-                'data' => json_encode($push['payload']),
-                'notification' => [
-                    'title' => $push['title'],
-                    'body'  => $push['text'],
-                    'image' => $push['image'] ?? null
-                ],
-                'android' => [
-                    'notification' => [
-                        'title' => $push['title'],
-                        'body'  => $push['text'],
-                        'image' => $push['image'] ?? null,
-                        "click_action" => [
-                            "type" => 1,
-                            "intent" => '#Intent;compo=com.rvr/.Activity;S.W=U;end'
-                        ]
-                    ]
-                ],
+                'data' => json_encode($data),
+                //TODO Обработка пуша типа Data
+//                'notification' => [
+//                    'title' => $push['title'],
+//                    'body'  => $push['text'],
+//                    'image' => $push['image'] ?? null
+//                ],
+//                'android' => [
+//                    'notification' => [
+//                        'sound' => $push['sound'],
+//                        'title' => $push['title'],
+//                        'body'  => $push['text'],
+//                        'image' => $push['image'] ?? null,
+//                        "click_action" => [
+//                            "type" => 1,
+//                            "intent" => '#Intent;compo=com.rvr/.Activity;S.W=U;end'
+//                        ]
+//                    ]
+//                ],
                 'token' => $tokens
             ]
         ];

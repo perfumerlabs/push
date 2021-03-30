@@ -4,10 +4,10 @@ use Propel\Generator\Manager\MigrationManager;
 
 /**
  * Data object containing the SQL and PHP code to migrate the database
- * up to version 1615774022.
+ * up to version 1615774023.
  * Generated on 2021-03-15 02:07:02 by root
  */
-class PropelMigration_1615774022
+class PropelMigration_1615774023
 {
     public $comment = '';
 
@@ -45,12 +45,12 @@ BEGIN;
 
 CREATE TABLE "push_token"
 (
-    "customer_token" VARCHAR(255) NOT NULL,
-    "apple_token" VARCHAR(255),
-    "google_token" VARCHAR(255),
-    "huawei_token" VARCHAR(255),
-    "web_token" VARCHAR(255),
-    PRIMARY KEY ("customer_token")
+    "user" VARCHAR(255) NOT NULL,
+    "apple" VARCHAR(255),
+    "google" VARCHAR(255),
+    "huawei" VARCHAR(255),
+    "web" VARCHAR(255),
+    PRIMARY KEY ("user")
 );
 
 COMMIT;

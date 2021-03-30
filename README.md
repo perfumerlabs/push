@@ -142,7 +142,7 @@ Response example:
 `POST /send`
 
 Request parameters (json):
-- user [array|string,required] - array or string of user.
+- user_key [array|string,required] - array or string of user.
 - title [string,required] - title text.
 - subtitle [string,optional] - subtitle text.
 - text [string,required] - body text.

@@ -19,13 +19,13 @@ use Push\Model\Map\PushTokenTableMap;
  *
  *
  *
- * @method     ChildPushTokenQuery orderByUser($order = Criteria::ASC) Order by the user column
+ * @method     ChildPushTokenQuery orderByUserKey($order = Criteria::ASC) Order by the user_key column
  * @method     ChildPushTokenQuery orderByApple($order = Criteria::ASC) Order by the apple column
  * @method     ChildPushTokenQuery orderByGoogle($order = Criteria::ASC) Order by the google column
  * @method     ChildPushTokenQuery orderByHuawei($order = Criteria::ASC) Order by the huawei column
  * @method     ChildPushTokenQuery orderByWeb($order = Criteria::ASC) Order by the web column
  *
- * @method     ChildPushTokenQuery groupByUser() Group by the user column
+ * @method     ChildPushTokenQuery groupByUserKey() Group by the user_key column
  * @method     ChildPushTokenQuery groupByApple() Group by the apple column
  * @method     ChildPushTokenQuery groupByGoogle() Group by the google column
  * @method     ChildPushTokenQuery groupByHuawei() Group by the huawei column
@@ -42,7 +42,7 @@ use Push\Model\Map\PushTokenTableMap;
  * @method     ChildPushToken findOne(ConnectionInterface $con = null) Return the first ChildPushToken matching the query
  * @method     ChildPushToken findOneOrCreate(ConnectionInterface $con = null) Return the first ChildPushToken matching the query, or a new ChildPushToken object populated from the query conditions when no match is found
  *
- * @method     ChildPushToken findOneByUser(string $user) Return the first ChildPushToken filtered by the user column
+ * @method     ChildPushToken findOneByUserKey(string $user_key) Return the first ChildPushToken filtered by the user_key column
  * @method     ChildPushToken findOneByApple(string $apple) Return the first ChildPushToken filtered by the apple column
  * @method     ChildPushToken findOneByGoogle(string $google) Return the first ChildPushToken filtered by the google column
  * @method     ChildPushToken findOneByHuawei(string $huawei) Return the first ChildPushToken filtered by the huawei column
@@ -51,14 +51,14 @@ use Push\Model\Map\PushTokenTableMap;
  * @method     ChildPushToken requirePk($key, ConnectionInterface $con = null) Return the ChildPushToken by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPushToken requireOne(ConnectionInterface $con = null) Return the first ChildPushToken matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildPushToken requireOneByUser(string $user) Return the first ChildPushToken filtered by the user column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPushToken requireOneByUserKey(string $user_key) Return the first ChildPushToken filtered by the user_key column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPushToken requireOneByApple(string $apple) Return the first ChildPushToken filtered by the apple column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPushToken requireOneByGoogle(string $google) Return the first ChildPushToken filtered by the google column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPushToken requireOneByHuawei(string $huawei) Return the first ChildPushToken filtered by the huawei column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPushToken requireOneByWeb(string $web) Return the first ChildPushToken filtered by the web column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildPushToken[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildPushToken objects based on current ModelCriteria
- * @method     ChildPushToken[]|ObjectCollection findByUser(string $user) Return ChildPushToken objects filtered by the user column
+ * @method     ChildPushToken[]|ObjectCollection findByUserKey(string $user_key) Return ChildPushToken objects filtered by the user_key column
  * @method     ChildPushToken[]|ObjectCollection findByApple(string $apple) Return ChildPushToken objects filtered by the apple column
  * @method     ChildPushToken[]|ObjectCollection findByGoogle(string $google) Return ChildPushToken objects filtered by the google column
  * @method     ChildPushToken[]|ObjectCollection findByHuawei(string $huawei) Return ChildPushToken objects filtered by the huawei column
@@ -161,7 +161,7 @@ abstract class PushTokenQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT user, apple, google, huawei, web FROM push_token WHERE user = :p0';
+        $sql = 'SELECT user_key, apple, google, huawei, web FROM push_token WHERE user_key = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_STR);
@@ -235,7 +235,7 @@ abstract class PushTokenQuery extends ModelCriteria
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(PushTokenTableMap::COL_USER, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(PushTokenTableMap::COL_USER_KEY, $key, Criteria::EQUAL);
     }
 
     /**
@@ -248,32 +248,32 @@ abstract class PushTokenQuery extends ModelCriteria
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(PushTokenTableMap::COL_USER, $keys, Criteria::IN);
+        return $this->addUsingAlias(PushTokenTableMap::COL_USER_KEY, $keys, Criteria::IN);
     }
 
     /**
-     * Filter the query on the user column
+     * Filter the query on the user_key column
      *
      * Example usage:
      * <code>
-     * $query->filterByUser('fooValue');   // WHERE user = 'fooValue'
-     * $query->filterByUser('%fooValue%', Criteria::LIKE); // WHERE user LIKE '%fooValue%'
+     * $query->filterByUserKey('fooValue');   // WHERE user_key = 'fooValue'
+     * $query->filterByUserKey('%fooValue%', Criteria::LIKE); // WHERE user_key LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $user The value to use as filter.
+     * @param     string $userKey The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildPushTokenQuery The current query, for fluid interface
      */
-    public function filterByUser($user = null, $comparison = null)
+    public function filterByUserKey($userKey = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($user)) {
+            if (is_array($userKey)) {
                 $comparison = Criteria::IN;
             }
         }
 
-        return $this->addUsingAlias(PushTokenTableMap::COL_USER, $user, $comparison);
+        return $this->addUsingAlias(PushTokenTableMap::COL_USER_KEY, $userKey, $comparison);
     }
 
     /**
@@ -386,7 +386,7 @@ abstract class PushTokenQuery extends ModelCriteria
     public function prune($pushToken = null)
     {
         if ($pushToken) {
-            $this->addUsingAlias(PushTokenTableMap::COL_USER, $pushToken->getUser(), Criteria::NOT_EQUAL);
+            $this->addUsingAlias(PushTokenTableMap::COL_USER_KEY, $pushToken->getUserKey(), Criteria::NOT_EQUAL);
         }
 
         return $this;

@@ -71,9 +71,9 @@ class PushTokenTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 5;
 
     /**
-     * the column name for the user field
+     * the column name for the user_key field
      */
-    const COL_USER = 'push_token.user';
+    const COL_USER_KEY = 'push_token.user_key';
 
     /**
      * the column name for the apple field
@@ -107,10 +107,10 @@ class PushTokenTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('User', 'Apple', 'Google', 'Huawei', 'Web', ),
-        self::TYPE_CAMELNAME     => array('user', 'apple', 'google', 'huawei', 'web', ),
-        self::TYPE_COLNAME       => array(PushTokenTableMap::COL_USER, PushTokenTableMap::COL_APPLE, PushTokenTableMap::COL_GOOGLE, PushTokenTableMap::COL_HUAWEI, PushTokenTableMap::COL_WEB, ),
-        self::TYPE_FIELDNAME     => array('user', 'apple', 'google', 'huawei', 'web', ),
+        self::TYPE_PHPNAME       => array('UserKey', 'Apple', 'Google', 'Huawei', 'Web', ),
+        self::TYPE_CAMELNAME     => array('userKey', 'apple', 'google', 'huawei', 'web', ),
+        self::TYPE_COLNAME       => array(PushTokenTableMap::COL_USER_KEY, PushTokenTableMap::COL_APPLE, PushTokenTableMap::COL_GOOGLE, PushTokenTableMap::COL_HUAWEI, PushTokenTableMap::COL_WEB, ),
+        self::TYPE_FIELDNAME     => array('user_key', 'apple', 'google', 'huawei', 'web', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -121,10 +121,10 @@ class PushTokenTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('User' => 0, 'Apple' => 1, 'Google' => 2, 'Huawei' => 3, 'Web' => 4, ),
-        self::TYPE_CAMELNAME     => array('user' => 0, 'apple' => 1, 'google' => 2, 'huawei' => 3, 'web' => 4, ),
-        self::TYPE_COLNAME       => array(PushTokenTableMap::COL_USER => 0, PushTokenTableMap::COL_APPLE => 1, PushTokenTableMap::COL_GOOGLE => 2, PushTokenTableMap::COL_HUAWEI => 3, PushTokenTableMap::COL_WEB => 4, ),
-        self::TYPE_FIELDNAME     => array('user' => 0, 'apple' => 1, 'google' => 2, 'huawei' => 3, 'web' => 4, ),
+        self::TYPE_PHPNAME       => array('UserKey' => 0, 'Apple' => 1, 'Google' => 2, 'Huawei' => 3, 'Web' => 4, ),
+        self::TYPE_CAMELNAME     => array('userKey' => 0, 'apple' => 1, 'google' => 2, 'huawei' => 3, 'web' => 4, ),
+        self::TYPE_COLNAME       => array(PushTokenTableMap::COL_USER_KEY => 0, PushTokenTableMap::COL_APPLE => 1, PushTokenTableMap::COL_GOOGLE => 2, PushTokenTableMap::COL_HUAWEI => 3, PushTokenTableMap::COL_WEB => 4, ),
+        self::TYPE_FIELDNAME     => array('user_key' => 0, 'apple' => 1, 'google' => 2, 'huawei' => 3, 'web' => 4, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -145,7 +145,7 @@ class PushTokenTableMap extends TableMap
         $this->setPackage('');
         $this->setUseIdGenerator(false);
         // columns
-        $this->addPrimaryKey('user', 'User', 'VARCHAR', true, 255, null);
+        $this->addPrimaryKey('user_key', 'UserKey', 'VARCHAR', true, 255, null);
         $this->addColumn('apple', 'Apple', 'VARCHAR', false, 255, null);
         $this->addColumn('google', 'Google', 'VARCHAR', false, 255, null);
         $this->addColumn('huawei', 'Huawei', 'VARCHAR', false, 255, null);
@@ -175,11 +175,11 @@ class PushTokenTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserKey', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)];
+        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserKey', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserKey', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserKey', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserKey', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserKey', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -199,7 +199,7 @@ class PushTokenTableMap extends TableMap
         return (string) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
-                : self::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('UserKey', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
 
@@ -300,13 +300,13 @@ class PushTokenTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(PushTokenTableMap::COL_USER);
+            $criteria->addSelectColumn(PushTokenTableMap::COL_USER_KEY);
             $criteria->addSelectColumn(PushTokenTableMap::COL_APPLE);
             $criteria->addSelectColumn(PushTokenTableMap::COL_GOOGLE);
             $criteria->addSelectColumn(PushTokenTableMap::COL_HUAWEI);
             $criteria->addSelectColumn(PushTokenTableMap::COL_WEB);
         } else {
-            $criteria->addSelectColumn($alias . '.user');
+            $criteria->addSelectColumn($alias . '.user_key');
             $criteria->addSelectColumn($alias . '.apple');
             $criteria->addSelectColumn($alias . '.google');
             $criteria->addSelectColumn($alias . '.huawei');
@@ -362,7 +362,7 @@ class PushTokenTableMap extends TableMap
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(PushTokenTableMap::DATABASE_NAME);
-            $criteria->add(PushTokenTableMap::COL_USER, (array) $values, Criteria::IN);
+            $criteria->add(PushTokenTableMap::COL_USER_KEY, (array) $values, Criteria::IN);
         }
 
         $query = PushTokenQuery::create()->mergeWith($criteria);

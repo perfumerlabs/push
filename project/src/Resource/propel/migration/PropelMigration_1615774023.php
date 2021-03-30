@@ -45,12 +45,12 @@ BEGIN;
 
 CREATE TABLE "push_token"
 (
-    "user" VARCHAR(255) NOT NULL,
+    "user_key" VARCHAR(255) NOT NULL,
     "apple" VARCHAR(255),
     "google" VARCHAR(255),
     "huawei" VARCHAR(255),
     "web" VARCHAR(255),
-    PRIMARY KEY ("user")
+    PRIMARY KEY ("user_key")
 );
 
 COMMIT;

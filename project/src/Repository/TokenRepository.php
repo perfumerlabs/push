@@ -10,14 +10,14 @@ class TokenRepository
     public function getOneByCustomerToken($user)
     {
         return PushTokenQuery::create()
-            ->filterByUser($user)
+            ->filterByUserKey($user)
             ->findOneOrCreate();
     }
 
     public function getPushTokens(array $users)
     {
         $push_tokens = PushTokenQuery::create()
-            ->filterByUser($users, Criteria::IN)
+            ->filterByUserKey($users, Criteria::IN)
             ->select(['google', 'huawei', 'apple', 'web'])
             ->find()
             ->getData();

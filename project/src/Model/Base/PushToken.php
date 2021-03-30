@@ -60,11 +60,11 @@ abstract class PushToken implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the user field.
+     * The value for the user_key field.
      *
      * @var        string
      */
-    protected $user;
+    protected $user_key;
 
     /**
      * The value for the apple field.
@@ -328,13 +328,13 @@ abstract class PushToken implements ActiveRecordInterface
     }
 
     /**
-     * Get the [user] column value.
+     * Get the [user_key] column value.
      *
      * @return string
      */
-    public function getUser()
+    public function getUserKey()
     {
-        return $this->user;
+        return $this->user_key;
     }
 
     /**
@@ -378,24 +378,24 @@ abstract class PushToken implements ActiveRecordInterface
     }
 
     /**
-     * Set the value of [user] column.
+     * Set the value of [user_key] column.
      *
      * @param string $v New value
      * @return $this|\Push\Model\PushToken The current object (for fluent API support)
      */
-    public function setUser($v)
+    public function setUserKey($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->user !== $v) {
-            $this->user = $v;
-            $this->modifiedColumns[PushTokenTableMap::COL_USER] = true;
+        if ($this->user_key !== $v) {
+            $this->user_key = $v;
+            $this->modifiedColumns[PushTokenTableMap::COL_USER_KEY] = true;
         }
 
         return $this;
-    } // setUser()
+    } // setUserKey()
 
     /**
      * Set the value of [apple] column.
@@ -513,8 +513,8 @@ abstract class PushToken implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PushTokenTableMap::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->user = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PushTokenTableMap::translateFieldName('UserKey', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->user_key = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PushTokenTableMap::translateFieldName('Apple', TableMap::TYPE_PHPNAME, $indexType)];
             $this->apple = (null !== $col) ? (string) $col : null;
@@ -732,8 +732,8 @@ abstract class PushToken implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(PushTokenTableMap::COL_USER)) {
-            $modifiedColumns[':p' . $index++]  = 'user';
+        if ($this->isColumnModified(PushTokenTableMap::COL_USER_KEY)) {
+            $modifiedColumns[':p' . $index++]  = 'user_key';
         }
         if ($this->isColumnModified(PushTokenTableMap::COL_APPLE)) {
             $modifiedColumns[':p' . $index++]  = 'apple';
@@ -758,8 +758,8 @@ abstract class PushToken implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'user':
-                        $stmt->bindValue($identifier, $this->user, PDO::PARAM_STR);
+                    case 'user_key':
+                        $stmt->bindValue($identifier, $this->user_key, PDO::PARAM_STR);
                         break;
                     case 'apple':
                         $stmt->bindValue($identifier, $this->apple, PDO::PARAM_STR);
@@ -829,7 +829,7 @@ abstract class PushToken implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getUser();
+                return $this->getUserKey();
                 break;
             case 1:
                 return $this->getApple();
@@ -872,7 +872,7 @@ abstract class PushToken implements ActiveRecordInterface
         $alreadyDumpedObjects['PushToken'][$this->hashCode()] = true;
         $keys = PushTokenTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getUser(),
+            $keys[0] => $this->getUserKey(),
             $keys[1] => $this->getApple(),
             $keys[2] => $this->getGoogle(),
             $keys[3] => $this->getHuawei(),
@@ -917,7 +917,7 @@ abstract class PushToken implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setUser($value);
+                $this->setUserKey($value);
                 break;
             case 1:
                 $this->setApple($value);
@@ -958,7 +958,7 @@ abstract class PushToken implements ActiveRecordInterface
         $keys = PushTokenTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setUser($arr[$keys[0]]);
+            $this->setUserKey($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
             $this->setApple($arr[$keys[1]]);
@@ -1013,8 +1013,8 @@ abstract class PushToken implements ActiveRecordInterface
     {
         $criteria = new Criteria(PushTokenTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(PushTokenTableMap::COL_USER)) {
-            $criteria->add(PushTokenTableMap::COL_USER, $this->user);
+        if ($this->isColumnModified(PushTokenTableMap::COL_USER_KEY)) {
+            $criteria->add(PushTokenTableMap::COL_USER_KEY, $this->user_key);
         }
         if ($this->isColumnModified(PushTokenTableMap::COL_APPLE)) {
             $criteria->add(PushTokenTableMap::COL_APPLE, $this->apple);
@@ -1045,7 +1045,7 @@ abstract class PushToken implements ActiveRecordInterface
     public function buildPkeyCriteria()
     {
         $criteria = ChildPushTokenQuery::create();
-        $criteria->add(PushTokenTableMap::COL_USER, $this->user);
+        $criteria->add(PushTokenTableMap::COL_USER_KEY, $this->user_key);
 
         return $criteria;
     }
@@ -1058,7 +1058,7 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = null !== $this->getUser();
+        $validPk = null !== $this->getUserKey();
 
         $validPrimaryKeyFKs = 0;
         $primaryKeyFKs = [];
@@ -1078,18 +1078,18 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function getPrimaryKey()
     {
-        return $this->getUser();
+        return $this->getUserKey();
     }
 
     /**
-     * Generic method to set the primary key (user column).
+     * Generic method to set the primary key (user_key column).
      *
      * @param       string $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
     {
-        $this->setUser($key);
+        $this->setUserKey($key);
     }
 
     /**
@@ -1098,7 +1098,7 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return null === $this->getUser();
+        return null === $this->getUserKey();
     }
 
     /**
@@ -1114,7 +1114,7 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setUser($this->getUser());
+        $copyObj->setUserKey($this->getUserKey());
         $copyObj->setApple($this->getApple());
         $copyObj->setGoogle($this->getGoogle());
         $copyObj->setHuawei($this->getHuawei());
@@ -1153,7 +1153,7 @@ abstract class PushToken implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->user = null;
+        $this->user_key = null;
         $this->apple = null;
         $this->google = null;
         $this->huawei = null;

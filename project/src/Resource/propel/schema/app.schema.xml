@@ -2,7 +2,7 @@
 <database name="push" defaultIdMethod="native" namespace="Push\Model">
     <!-- Customer token and they provider tokens -->
     <table name="push_token" phpName="PushToken">
-        <column name="user" type="varchar" size="255" required="true" primaryKey="true"/>
+        <column name="user_key" type="varchar" size="255" required="true" primaryKey="true"/>
         <column name="apple" type="varchar" size="255" />
         <column name="google" type="varchar" size="255" />
         <column name="huawei" type="varchar" size="255" />

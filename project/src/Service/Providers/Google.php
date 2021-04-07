@@ -63,7 +63,12 @@ class Google extends Layout implements Provider
         $message->setData($payload);
         $message->setAndroid($android);
 
+        $delete = [];
+
         foreach ($tokens as $token){
+            $user_key = $token['user_key'];
+            $token = $token['token'];
+
             try {
                 $message->setToken($token);
 
@@ -72,8 +77,17 @@ class Google extends Layout implements Provider
 
                 $client->projects_messages->send('projects/' . $this->json_config['project_id'], $send_body);
             }catch (\Throwable $e){
-                error_log("GOOGLE $token " . $e->getMessage());
+                $error = json_decode($e->getMessage(), true);
+                if(is_array($error)){
+                    $error = $error['error'];
+                    if($error['code'] === 404){
+                        $delete[] = $user_key;
+                    }
+                    error_log("GOOGLE $token " . $error['message']);
+                }
             }
         }
+
+        return $delete;
     }
 }

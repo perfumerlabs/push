@@ -3,7 +3,9 @@
 namespace Push\Domain;
 
 
+use Propel\Runtime\ActiveQuery\Criteria;
 use Push\Model\Map\PushTokenTableMap;
+use Push\Model\PushTokenQuery;
 use Push\Repository\TokenRepository;
 
 class TokenDomain
@@ -37,5 +39,14 @@ class TokenDomain
 
         $push_token->fromArray([$provider => null], PushTokenTableMap::TYPE_FIELDNAME);
         $push_token->save();
+    }
+
+    public function removeTokens($users, $provider)
+    {
+        $provider = mb_strtoupper(mb_substr($provider, 0, 1, 'utf-8'), 'utf-8') . mb_substr($provider, 1, null, 'utf-8');
+
+        PushTokenQuery::create()
+            ->filterByUserKey($users, Criteria::IN)
+            ->update([($provider) => null]);
     }
 }

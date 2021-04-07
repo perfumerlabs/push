@@ -44,7 +44,11 @@ class Apple extends Layout implements Provider
             $data['aps']['alert']['subtitle'] = $push['subtitle'];
         }
 
+        $delete = [];
+
         foreach ($tokens as $token) {
+            $user_key = $token['user_key'];
+            $token = $token['token'];
             try {
                 (new Client())->post($this->getUrl() . $token, [
                     'verify' => false,
@@ -57,9 +61,15 @@ class Apple extends Layout implements Provider
                         'apns-topic' => $this->bundle_id
                     ],
                 ]);
+
             } catch (\Throwable $e) {
+                if($e->getCode() === 400){
+                    $delete[] = $user_key;
+                }
                 error_log("APPLE $token " . $e->getMessage());
             }
         }
+
+        return $delete;
     }
 }

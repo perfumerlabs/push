@@ -30,6 +30,12 @@ return [
         'arguments' => ['*google']
     ],
 
+    'providers.web' => [
+        'shared' => true,
+        'class' => 'Push\\Service\\Providers\\Web',
+        'arguments' => ['*google']
+    ],
+
     'providers.apple' => [
         'shared' => true,
         'class' => 'Push\\Service\\Providers\\Apple',

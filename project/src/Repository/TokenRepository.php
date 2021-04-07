@@ -17,8 +17,8 @@ class TokenRepository
     public function getPushTokens(array $users)
     {
         $push_tokens = PushTokenQuery::create()
+            ->select(['user_key', 'google', 'huawei', 'apple', 'web'])
             ->filterByUserKey($users, Criteria::IN)
-            ->select(['google', 'huawei', 'apple', 'web'])
             ->find()
             ->getData();
 
@@ -30,17 +30,31 @@ class TokenRepository
         ];
 
         foreach ($push_tokens as $tokens){
+            $user_key = $tokens['user_key'];
+
             if($tokens['google']){
-                $result['google'][] = $tokens['google'];
+                $result['google'][] = [
+                    'user_key' => $user_key,
+                    'token' => $tokens['google']
+                ];
             }
             if($tokens['huawei']){
-                $result['huawei'][] = $tokens['huawei'];
+                $result['huawei'][] = [
+                    'user_key' => $user_key,
+                    'token' => $tokens['huawei']
+                ];
             }
             if($tokens['apple']){
-                $result['apple'][] = $tokens['apple'];
+                $result['apple'][] = [
+                    'user_key' => $user_key,
+                    'token' => $tokens['apple']
+                ];
             }
             if($tokens['web']){
-                $result['web'][] = $tokens['web'];
+                $result['web'][] = [
+                    'user_key' => $user_key,
+                    'token' => $tokens['google']
+                ];
             }
         }
 

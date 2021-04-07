@@ -84,12 +84,12 @@ class Huawei extends Layout implements Provider
 //                        ]
 //                    ]
 //                ],
-                'token' => $tokens
+                'token' => array_column($tokens, 'token')
             ]
         ];
 
         try {
-            (new Client())->post($this->getUrl(), [
+            $response = (new Client())->post($this->getUrl(), [
                 'json' => $data,
                 'headers' => [
                     'Content-Type' => 'application/json; charset=UTF-8',
@@ -97,6 +97,29 @@ class Huawei extends Layout implements Provider
                 ],
             ]);
 
+            $response = json_decode($response->getBody()->getContents(), true);
+            
+            $delete = [];
+            $code = $response['code'] ?? false;
+
+            if($code) {
+                if($code === '80300007'){
+                    $delete = array_column($tokens, 'user_key');
+                }elseif($code === '80100000') {
+                    if ($response['msg'] ?? false) {
+                        $errors = json_decode($response['msg'], true);
+                        if ($errors['illegal_tokens'] ?? false) {
+                            foreach ($tokens as $item) {
+                                if (in_array($item['token'], $errors['illegal_tokens'])) {
+                                    $delete[] = $item['user_key'];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return $delete;
         }catch (\Throwable $e){
             error_log("HUAWEI " . $e->getMessage());
         }

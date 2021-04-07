@@ -6,9 +6,9 @@ return [
             'connections' => [
                 'push' => [
                     'adapter' => 'pgsql',
-                    'dsn' => 'pgsql:host=db;port=5432;dbname=microservices',
-                    'user' => 'postgres',
-                    'password' => 'root',
+                    'dsn' => 'pgsql:host=PG_HOST;port=PG_PORT;dbname=PG_DATABASE',
+                    'user' => 'PG_USER',
+                    'password' => 'PG_PASSWORD',
                     'settings' => [
                         'charset' => 'utf8',
                         'queries' => [

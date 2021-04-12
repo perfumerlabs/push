@@ -67,7 +67,7 @@ class TokenFacade
                 /** @var \Push\Service\Providers\Provider $provider_service */
                 $provider_service = $this->$provider;
                 $delete = $provider_service->send($push_tokens[$provider], $push);
-                var_dump($delete);
+
                 if($delete){
                     $this->getDomain()->removeTokens($delete, $provider);
                     $errors[$provider] = $delete;

@@ -21,9 +21,9 @@ class SendController extends LayoutController
 
         $title = (string)$this->f('title');
         $text = (string)$this->f('text');
-        $image = (string)$this->f('image');
+        $image = $this->f('image');
         $payload = (array)$this->f('payload');
-        $sound = (string)$this->f('sound');
+        $sound = $this->f('sound');
         $this->validateNotEmpty($title, 'title');
         $this->validateNotEmpty($text, 'text');
 
@@ -44,7 +44,7 @@ class SendController extends LayoutController
                 $this->setContent(['errors' => $errors]);
             }
         }catch (\Throwable $e){
-            var_dump($e->getMessage());
+//            var_dump($e->getMessage());
         }
     }
 }

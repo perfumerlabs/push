@@ -35,7 +35,7 @@ class Apple extends Layout implements Provider
                     'title' => $push['title'],
                     'body'  => $push['text'],
                 ],
-                'sound' => $push['sound'] ?? 'default'
+                'sound' => array_key_exists('sound', $push) ? ($push['sound'] . '.wav') : 'default'
             ],
             'payload' => $push['payload']
         ];

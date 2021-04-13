@@ -41,11 +41,13 @@ class Google extends Layout implements Provider
         $image = $push['image'] ?? null;
         $title = $push['title'] ?? null;
         $text = $push['text'] ?? null;
+        $sound = $push['sound'] ?? null;
 
         $payload = [
             'image' => $image,
             'title' => $title,
             'message' => $text,
+            'sound' => $sound,
         ];
 
         if($push['payload'] ?? false){

@@ -63,7 +63,7 @@ class Apple extends Layout implements Provider
                 ]);
 
             } catch (\Throwable $e) {
-                if($e->getCode() === 400){
+                if(in_array($e->getCode(), [400, 410])){
                     $delete[] = $user_key;
                 }
                 error_log("APPLE $token " . $e->getMessage());

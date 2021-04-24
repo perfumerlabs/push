@@ -82,7 +82,7 @@ class Google extends Layout implements Provider
                 $error = json_decode($e->getMessage(), true);
                 if(is_array($error)){
                     $error = $error['error'];
-                    if($error['code'] === 404){
+                    if(in_array($error['code'], [400, 404])){
                         $delete[] = $user_key;
                     }
                     error_log("GOOGLE $token " . $error['message']);

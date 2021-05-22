@@ -2,13 +2,17 @@
 
 namespace Push\Service\Providers;
 
+use Amp\MultiReasonException;
 use App\Model\Transaction;
 use Envms\FluentPDO\Query;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Propel\Runtime\Propel;
+use Psr\Http\Message\ResponseInterface;
 use Push\Model\Map\PushTokenTableMap;
 use Stash\Pool;
+use function Amp\ParallelFunctions\parallelMap;
 
 class Apple extends Layout implements Provider
 {
@@ -44,11 +48,10 @@ class Apple extends Layout implements Provider
             $data['aps']['alert']['subtitle'] = $push['subtitle'];
         }
 
-        $delete = [];
-
-        foreach ($tokens as $token) {
+        return \Amp\Promise\wait(parallelMap($tokens, function ($token) use ($data) {
             $user_key = $token['user_key'];
             $token = $token['token'];
+
             try {
                 (new Client())->post($this->getUrl() . $token, [
                     'verify' => false,
@@ -61,15 +64,12 @@ class Apple extends Layout implements Provider
                         'apns-topic' => $this->bundle_id
                     ],
                 ]);
-
             } catch (\Throwable $e) {
-                if(in_array($e->getCode(), [400, 410])){
-                    $delete[] = $user_key;
-                }
                 error_log("APPLE $token " . $e->getMessage());
+                if(in_array($e->getCode(), [400, 410])){
+                    return $user_key;
+                }
             }
-        }
-
-        return $delete;
+        }));
     }
 }

@@ -7,6 +7,7 @@ use Google\Client;
 use GuzzleHttp\Client as Guzzle;
 use Propel\Runtime\Propel;
 use Push\Model\Map\PushTokenTableMap;
+use function Amp\ParallelFunctions\parallelMap;
 
 class Google extends Layout implements Provider
 {
@@ -65,13 +66,12 @@ class Google extends Layout implements Provider
         $message->setData($payload);
         $message->setAndroid($android);
 
-        $delete = [];
-
-        foreach ($tokens as $token){
+        return \Amp\Promise\wait(parallelMap($tokens, function ($token) use ($message, $client) {
             $user_key = $token['user_key'];
             $token = $token['token'];
 
             try {
+                $message = clone $message;
                 $message->setToken($token);
 
                 $send_body = new \Google_Service_FirebaseCloudMessaging_SendMessageRequest();
@@ -82,14 +82,12 @@ class Google extends Layout implements Provider
                 $error = json_decode($e->getMessage(), true);
                 if(is_array($error)){
                     $error = $error['error'];
-                    if(in_array($error['code'], [400, 404])){
-                        $delete[] = $user_key;
-                    }
                     error_log("GOOGLE $token " . $error['message']);
+                    if(in_array($error['code'], [400, 404])){
+                        return $user_key;
+                    }
                 }
             }
-        }
-
-        return $delete;
+        }));
     }
 }

@@ -23,7 +23,9 @@
         "ext-pdo": "*",
         "sl4mmer/phpcent": "v2.0.0",
         "google/apiclient": "^2.7",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "amphp/http-client": "^4.5",
+        "amphp/parallel-functions": "^1.0"
     },
     "require-dev": {
         "filp/whoops": "2.*"

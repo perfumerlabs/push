@@ -35,16 +35,12 @@ class SendController extends LayoutController
             'sound' => $sound,
         ];
 
-        try {
-            /** @var \Push\Facade\TokenFacade $token_facade */
-            $token_facade = $this->s('facade.token');
-            $errors = $token_facade->sendPush($users, $push);
+        /** @var \Push\Facade\TokenFacade $token_facade */
+        $token_facade = $this->s('facade.token');
+        $errors = $token_facade->sendPush($users, $push);
 
-            if($errors){
-                $this->setContent(['errors' => $errors]);
-            }
-        }catch (\Throwable $e){
-//            var_dump($e->getMessage());
+        if($errors){
+            $this->setContent(['errors' => $errors]);
         }
     }
 }

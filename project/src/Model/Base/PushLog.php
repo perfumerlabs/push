@@ -83,6 +83,13 @@ abstract class PushLog implements ActiveRecordInterface
     protected $push;
 
     /**
+     * The value for the errors field.
+     *
+     * @var        string
+     */
+    protected $errors;
+
+    /**
      * The value for the created_at field.
      *
      * @var        DateTime
@@ -357,6 +364,18 @@ abstract class PushLog implements ActiveRecordInterface
     }
 
     /**
+     * Get the [errors] column value.
+     *
+     * @param bool $asArray Returns the JSON data as array instead of object
+
+     * @return object
+     */
+    public function getErrors($asArray = true)
+    {
+        return json_decode($this->errors, $asArray);
+    }
+
+    /**
      * Get the [optionally formatted] temporal [created_at] column value.
      *
      *
@@ -439,6 +458,27 @@ abstract class PushLog implements ActiveRecordInterface
     } // setPush()
 
     /**
+     * Set the value of [errors] column.
+     *
+     * @param string|array|object $v new value
+     * @return $this|\Push\Model\PushLog The current object (for fluent API support)
+     */
+    public function setErrors($v)
+    {
+        if (is_string($v)) {
+            // JSON as string needs to be decoded/encoded to get a reliable comparison (spaces, ...)
+            $v = json_decode($v);
+        }
+        $encodedValue = json_encode($v);
+        if ($encodedValue !== $this->errors) {
+            $this->errors = $encodedValue;
+            $this->modifiedColumns[PushLogTableMap::COL_ERRORS] = true;
+        }
+
+        return $this;
+    } // setErrors()
+
+    /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
@@ -503,7 +543,10 @@ abstract class PushLog implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PushLogTableMap::translateFieldName('Push', TableMap::TYPE_PHPNAME, $indexType)];
             $this->push = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PushLogTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PushLogTableMap::translateFieldName('Errors', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->errors = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : PushLogTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
@@ -513,7 +556,7 @@ abstract class PushLog implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = PushLogTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = PushLogTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Push\\Model\\PushLog'), 0, $e);
@@ -738,6 +781,9 @@ abstract class PushLog implements ActiveRecordInterface
         if ($this->isColumnModified(PushLogTableMap::COL_PUSH)) {
             $modifiedColumns[':p' . $index++]  = 'push';
         }
+        if ($this->isColumnModified(PushLogTableMap::COL_ERRORS)) {
+            $modifiedColumns[':p' . $index++]  = 'errors';
+        }
         if ($this->isColumnModified(PushLogTableMap::COL_CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'created_at';
         }
@@ -760,6 +806,9 @@ abstract class PushLog implements ActiveRecordInterface
                         break;
                     case 'push':
                         $stmt->bindValue($identifier, $this->push, PDO::PARAM_STR);
+                        break;
+                    case 'errors':
+                        $stmt->bindValue($identifier, $this->errors, PDO::PARAM_STR);
                         break;
                     case 'created_at':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
@@ -829,6 +878,9 @@ abstract class PushLog implements ActiveRecordInterface
                 return $this->getPush();
                 break;
             case 3:
+                return $this->getErrors();
+                break;
+            case 4:
                 return $this->getCreatedAt();
                 break;
             default:
@@ -863,10 +915,11 @@ abstract class PushLog implements ActiveRecordInterface
             $keys[0] => $this->getId(),
             $keys[1] => $this->getUsers(),
             $keys[2] => $this->getPush(),
-            $keys[3] => $this->getCreatedAt(),
+            $keys[3] => $this->getErrors(),
+            $keys[4] => $this->getCreatedAt(),
         );
-        if ($result[$keys[3]] instanceof \DateTimeInterface) {
-            $result[$keys[3]] = $result[$keys[3]]->format('c');
+        if ($result[$keys[4]] instanceof \DateTimeInterface) {
+            $result[$keys[4]] = $result[$keys[4]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -917,6 +970,9 @@ abstract class PushLog implements ActiveRecordInterface
                 $this->setPush($value);
                 break;
             case 3:
+                $this->setErrors($value);
+                break;
+            case 4:
                 $this->setCreatedAt($value);
                 break;
         } // switch()
@@ -955,7 +1011,10 @@ abstract class PushLog implements ActiveRecordInterface
             $this->setPush($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setCreatedAt($arr[$keys[3]]);
+            $this->setErrors($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setCreatedAt($arr[$keys[4]]);
         }
     }
 
@@ -1006,6 +1065,9 @@ abstract class PushLog implements ActiveRecordInterface
         }
         if ($this->isColumnModified(PushLogTableMap::COL_PUSH)) {
             $criteria->add(PushLogTableMap::COL_PUSH, $this->push);
+        }
+        if ($this->isColumnModified(PushLogTableMap::COL_ERRORS)) {
+            $criteria->add(PushLogTableMap::COL_ERRORS, $this->errors);
         }
         if ($this->isColumnModified(PushLogTableMap::COL_CREATED_AT)) {
             $criteria->add(PushLogTableMap::COL_CREATED_AT, $this->created_at);
@@ -1098,6 +1160,7 @@ abstract class PushLog implements ActiveRecordInterface
     {
         $copyObj->setUsers($this->getUsers());
         $copyObj->setPush($this->getPush());
+        $copyObj->setErrors($this->getErrors());
         $copyObj->setCreatedAt($this->getCreatedAt());
         if ($makeNew) {
             $copyObj->setNew(true);
@@ -1137,6 +1200,7 @@ abstract class PushLog implements ActiveRecordInterface
         $this->id = null;
         $this->users = null;
         $this->push = null;
+        $this->errors = null;
         $this->created_at = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();

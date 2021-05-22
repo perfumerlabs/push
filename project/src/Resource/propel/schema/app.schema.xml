@@ -13,6 +13,7 @@
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="users" type="json" />
         <column name="push" type="json" />
+        <column name="errors" type="json" />
 
         <behavior name="timestampable">
             <parameter name="disable_updated_at" value="true" />

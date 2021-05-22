@@ -58,7 +58,7 @@ class PushLogTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class PushLogTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the id field
@@ -84,6 +84,11 @@ class PushLogTableMap extends TableMap
      * the column name for the push field
      */
     const COL_PUSH = 'push_log.push';
+
+    /**
+     * the column name for the errors field
+     */
+    const COL_ERRORS = 'push_log.errors';
 
     /**
      * the column name for the created_at field
@@ -102,11 +107,11 @@ class PushLogTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Users', 'Push', 'CreatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'users', 'push', 'createdAt', ),
-        self::TYPE_COLNAME       => array(PushLogTableMap::COL_ID, PushLogTableMap::COL_USERS, PushLogTableMap::COL_PUSH, PushLogTableMap::COL_CREATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'users', 'push', 'created_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Users', 'Push', 'Errors', 'CreatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'users', 'push', 'errors', 'createdAt', ),
+        self::TYPE_COLNAME       => array(PushLogTableMap::COL_ID, PushLogTableMap::COL_USERS, PushLogTableMap::COL_PUSH, PushLogTableMap::COL_ERRORS, PushLogTableMap::COL_CREATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'users', 'push', 'errors', 'created_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -116,11 +121,11 @@ class PushLogTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Users' => 1, 'Push' => 2, 'CreatedAt' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'users' => 1, 'push' => 2, 'createdAt' => 3, ),
-        self::TYPE_COLNAME       => array(PushLogTableMap::COL_ID => 0, PushLogTableMap::COL_USERS => 1, PushLogTableMap::COL_PUSH => 2, PushLogTableMap::COL_CREATED_AT => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'users' => 1, 'push' => 2, 'created_at' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Users' => 1, 'Push' => 2, 'Errors' => 3, 'CreatedAt' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'users' => 1, 'push' => 2, 'errors' => 3, 'createdAt' => 4, ),
+        self::TYPE_COLNAME       => array(PushLogTableMap::COL_ID => 0, PushLogTableMap::COL_USERS => 1, PushLogTableMap::COL_PUSH => 2, PushLogTableMap::COL_ERRORS => 3, PushLogTableMap::COL_CREATED_AT => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'users' => 1, 'push' => 2, 'errors' => 3, 'created_at' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -144,6 +149,7 @@ class PushLogTableMap extends TableMap
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('users', 'Users', 'JSON', false, null, null);
         $this->addColumn('push', 'Push', 'JSON', false, null, null);
+        $this->addColumn('errors', 'Errors', 'JSON', false, null, null);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
     } // initialize()
 
@@ -311,11 +317,13 @@ class PushLogTableMap extends TableMap
             $criteria->addSelectColumn(PushLogTableMap::COL_ID);
             $criteria->addSelectColumn(PushLogTableMap::COL_USERS);
             $criteria->addSelectColumn(PushLogTableMap::COL_PUSH);
+            $criteria->addSelectColumn(PushLogTableMap::COL_ERRORS);
             $criteria->addSelectColumn(PushLogTableMap::COL_CREATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.users');
             $criteria->addSelectColumn($alias . '.push');
+            $criteria->addSelectColumn($alias . '.errors');
             $criteria->addSelectColumn($alias . '.created_at');
         }
     }

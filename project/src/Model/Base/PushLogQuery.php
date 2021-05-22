@@ -22,11 +22,13 @@ use Push\Model\Map\PushLogTableMap;
  * @method     ChildPushLogQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildPushLogQuery orderByUsers($order = Criteria::ASC) Order by the users column
  * @method     ChildPushLogQuery orderByPush($order = Criteria::ASC) Order by the push column
+ * @method     ChildPushLogQuery orderByErrors($order = Criteria::ASC) Order by the errors column
  * @method     ChildPushLogQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  *
  * @method     ChildPushLogQuery groupById() Group by the id column
  * @method     ChildPushLogQuery groupByUsers() Group by the users column
  * @method     ChildPushLogQuery groupByPush() Group by the push column
+ * @method     ChildPushLogQuery groupByErrors() Group by the errors column
  * @method     ChildPushLogQuery groupByCreatedAt() Group by the created_at column
  *
  * @method     ChildPushLogQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -43,6 +45,7 @@ use Push\Model\Map\PushLogTableMap;
  * @method     ChildPushLog findOneById(int $id) Return the first ChildPushLog filtered by the id column
  * @method     ChildPushLog findOneByUsers(string $users) Return the first ChildPushLog filtered by the users column
  * @method     ChildPushLog findOneByPush(string $push) Return the first ChildPushLog filtered by the push column
+ * @method     ChildPushLog findOneByErrors(string $errors) Return the first ChildPushLog filtered by the errors column
  * @method     ChildPushLog findOneByCreatedAt(string $created_at) Return the first ChildPushLog filtered by the created_at column *
 
  * @method     ChildPushLog requirePk($key, ConnectionInterface $con = null) Return the ChildPushLog by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -51,12 +54,14 @@ use Push\Model\Map\PushLogTableMap;
  * @method     ChildPushLog requireOneById(int $id) Return the first ChildPushLog filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPushLog requireOneByUsers(string $users) Return the first ChildPushLog filtered by the users column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPushLog requireOneByPush(string $push) Return the first ChildPushLog filtered by the push column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPushLog requireOneByErrors(string $errors) Return the first ChildPushLog filtered by the errors column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPushLog requireOneByCreatedAt(string $created_at) Return the first ChildPushLog filtered by the created_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildPushLog[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildPushLog objects based on current ModelCriteria
  * @method     ChildPushLog[]|ObjectCollection findById(int $id) Return ChildPushLog objects filtered by the id column
  * @method     ChildPushLog[]|ObjectCollection findByUsers(string $users) Return ChildPushLog objects filtered by the users column
  * @method     ChildPushLog[]|ObjectCollection findByPush(string $push) Return ChildPushLog objects filtered by the push column
+ * @method     ChildPushLog[]|ObjectCollection findByErrors(string $errors) Return ChildPushLog objects filtered by the errors column
  * @method     ChildPushLog[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildPushLog objects filtered by the created_at column
  * @method     ChildPushLog[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
@@ -156,7 +161,7 @@ abstract class PushLogQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, users, push, created_at FROM push_log WHERE id = :p0';
+        $sql = 'SELECT id, users, push, errors, created_at FROM push_log WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -335,6 +340,31 @@ abstract class PushLogQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(PushLogTableMap::COL_PUSH, $push, $comparison);
+    }
+
+    /**
+     * Filter the query on the errors column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByErrors('fooValue');   // WHERE errors = 'fooValue'
+     * $query->filterByErrors('%fooValue%', Criteria::LIKE); // WHERE errors LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $errors The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPushLogQuery The current query, for fluid interface
+     */
+    public function filterByErrors($errors = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($errors)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(PushLogTableMap::COL_ERRORS, $errors, $comparison);
     }
 
     /**

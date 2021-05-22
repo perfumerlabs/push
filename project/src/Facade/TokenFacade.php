@@ -94,7 +94,7 @@ class TokenFacade
             }
         }
 
-        $this->log->log($push_tokens, $push);
+        $this->log->log($push_tokens, $push, $errors);
 
         return $errors;
     }

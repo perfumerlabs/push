@@ -18,10 +18,15 @@ return [
         'arguments' => ['#repository.token']
     ],
 
+    'domain.log' => [
+        'shared' => true,
+        'class' => 'Push\\Domain\\LogDomain'
+    ],
+
     'facade.token' => [
         'shared' => true,
         'class' => 'Push\\Facade\\TokenFacade',
-        'arguments' => ['#domain.token', '#repository.token', '#providers.google', '#providers.huawei', '#providers.apple']
+        'arguments' => ['#domain.token', '#domain.log', '#repository.token', '#providers.google', '#providers.huawei', '#providers.apple']
     ],
 
     'providers.google' => [

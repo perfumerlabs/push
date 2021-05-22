@@ -3,6 +3,7 @@
 namespace Push\Facade;
 
 
+use Push\Domain\LogDomain;
 use Push\Domain\TokenDomain;
 use Push\Model\PushToken;
 use Push\Repository\TokenRepository;
@@ -23,6 +24,11 @@ class TokenFacade
     protected TokenDomain $domain;
 
     /**
+     * @var LogDomain
+     */
+    protected LogDomain $log;
+
+    /**
      * @var Apple
      */
     protected Apple $apple;
@@ -37,10 +43,11 @@ class TokenFacade
      */
     protected Huawei $huawei;
 
-    public function __construct(TokenDomain $token_domain, TokenRepository $token_repository, Google $google, Huawei $huawei, Apple $apple)
+    public function __construct(TokenDomain $token_domain, LogDomain $log_domain, TokenRepository $token_repository, Google $google, Huawei $huawei, Apple $apple)
     {
         $this->repository = $token_repository;
         $this->domain = $token_domain;
+        $this->log = $log_domain;
         $this->apple = $apple;
         $this->google = $google;
         $this->huawei = $huawei;
@@ -54,6 +61,11 @@ class TokenFacade
     public function getDomain()
     {
         return $this->domain;
+    }
+
+    public function getLog()
+    {
+        return $this->log;
     }
 
     public function sendPush(array $tokens, array $push)
@@ -70,15 +82,19 @@ class TokenFacade
 
                 if($delete){
                     foreach ($delete as $key => $item){
-                        if($item){
+                        if(!$item){
                             unset($delete[$key]);
                         }
                     }
-                    $this->getDomain()->removeTokens($delete, $provider);
-                    $errors[$provider] = $delete;
+                    if($delete) {
+                        $this->getDomain()->removeTokens($delete, $provider);
+                        $errors[$provider] = $delete;
+                    }
                 }
             }
         }
+
+        $this->log->log($push_tokens, $push);
 
         return $errors;
     }

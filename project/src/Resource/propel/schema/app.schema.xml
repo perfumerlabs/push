@@ -8,4 +8,14 @@
         <column name="huawei" type="varchar" size="255" />
         <column name="web" type="varchar" size="255" />
     </table>
+    <!-- Logs -->
+    <table name="push_log" phpName="PushLog">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="users" type="json" />
+        <column name="push" type="json" />
+
+        <behavior name="timestampable">
+            <parameter name="disable_updated_at" value="true" />
+        </behavior>
+    </table>
 </database>

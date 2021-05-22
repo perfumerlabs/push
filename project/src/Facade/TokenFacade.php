@@ -69,6 +69,11 @@ class TokenFacade
                 $delete = $provider_service->send($push_tokens[$provider], $push);
 
                 if($delete){
+                    foreach ($delete as $key => $item){
+                        if($item){
+                            unset($delete[$key]);
+                        }
+                    }
                     $this->getDomain()->removeTokens($delete, $provider);
                     $errors[$provider] = $delete;
                 }

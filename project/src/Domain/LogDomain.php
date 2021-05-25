@@ -13,6 +13,7 @@ class LogDomain
         $log->setUsers($users);
         $log->setPush($push);
         $log->setErrors($errors);
+        $log->setCreatedAt((new \DateTime())->setTimezone(new \DateTimeZone('Asia/Almaty')));
         $log->save();
     }
 }

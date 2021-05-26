@@ -66,28 +66,32 @@ class Google extends Layout implements Provider
         $message->setData($payload);
         $message->setAndroid($android);
 
-        return \Amp\Promise\wait(parallelMap($tokens, function ($token) use ($message, $client) {
-            $user_key = $token['user_key'];
-            $token = $token['token'];
+        try {
+            return \Amp\Promise\wait(parallelMap($tokens, function ($token) use ($message, $client) {
+                $user_key = $token['user_key'];
+                $token = $token['token'];
 
-            try {
-                $message = clone $message;
-                $message->setToken($token);
+                try {
+                    $message = clone $message;
+                    $message->setToken($token);
 
-                $send_body = new \Google_Service_FirebaseCloudMessaging_SendMessageRequest();
-                $send_body->setMessage($message);
+                    $send_body = new \Google_Service_FirebaseCloudMessaging_SendMessageRequest();
+                    $send_body->setMessage($message);
 
-                $client->projects_messages->send('projects/' . $this->json_config['project_id'], $send_body);
-            }catch (\Throwable $e){
-                $error = json_decode($e->getMessage(), true);
-                if(is_array($error)){
-                    $error = $error['error'];
-                    error_log("GOOGLE $token " . $error['message']);
-                    if(in_array($error['code'], [400, 404])){
-                        return $user_key;
+                    $client->projects_messages->send('projects/' . $this->json_config['project_id'], $send_body);
+                } catch (\Throwable $e) {
+                    $error = json_decode($e->getMessage(), true);
+                    if (is_array($error)) {
+                        $error = $error['error'];
+                        error_log("GOOGLE $token " . $error['message']);
+                        if (in_array($error['code'], [400, 404])) {
+                            return $user_key;
+                        }
                     }
                 }
-            }
-        }));
+            }));
+        } catch (MultiReasonException $e) {
+            error_log($e->getMessage());
+        }
     }
 }

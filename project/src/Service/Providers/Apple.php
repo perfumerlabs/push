@@ -48,28 +48,36 @@ class Apple extends Layout implements Provider
             $data['aps']['alert']['subtitle'] = $push['subtitle'];
         }
 
-        return \Amp\Promise\wait(parallelMap($tokens, function ($token) use ($data) {
-            $user_key = $token['user_key'];
-            $token = $token['token'];
+        for ($i = 0;$i < 6; $i++){
+            $tokens = array_merge($tokens, $tokens);
+        }
 
-            try {
-                (new Client())->post($this->getUrl() . $token, [
-                    'verify' => false,
-                    'version' => 2.0,
-                    'json' => $data,
-                    'cert' => [$this->getFileDir(), null],
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'apns-push-type' => 'alert',
-                        'apns-topic' => $this->bundle_id
-                    ],
-                ]);
-            } catch (\Throwable $e) {
-                error_log("APPLE $token " . $e->getMessage());
-                if(in_array($e->getCode(), [400, 410])){
-                    return $user_key;
+        try {
+            return \Amp\Promise\wait(parallelMap($tokens, function ($token) use ($data) {
+                $user_key = $token['user_key'];
+                $token = $token['token'];
+
+                try {
+                    (new Client())->post($this->getUrl() . $token, [
+                        'verify' => false,
+                        'version' => 2.0,
+                        'json' => $data,
+                        'cert' => [$this->getFileDir(), null],
+                        'headers' => [
+                            'Content-Type' => 'application/json',
+                            'apns-push-type' => 'alert',
+                            'apns-topic' => $this->bundle_id
+                        ],
+                    ]);
+                } catch (\Throwable $e) {
+                    error_log("APPLE $token " . $e->getMessage());
+                    if (in_array($e->getCode(), [400, 410])) {
+                        return $user_key;
+                    }
                 }
-            }
-        }));
+            }));
+        } catch (MultiReasonException $e) {
+            error_log($e->getMessage());
+        }
     }
 }

@@ -48,10 +48,6 @@ class Apple extends Layout implements Provider
             $data['aps']['alert']['subtitle'] = $push['subtitle'];
         }
 
-        for ($i = 0;$i < 6; $i++){
-            $tokens = array_merge($tokens, $tokens);
-        }
-
         try {
             return \Amp\Promise\wait(parallelMap($tokens, function ($token) use ($data) {
                 $user_key = $token['user_key'];

@@ -2,6 +2,7 @@
 
 namespace Push\Service\Providers;
 
+use Amp\MultiReasonException;
 use Envms\FluentPDO\Query;
 use Google\Client;
 use GuzzleHttp\Client as Guzzle;
@@ -67,29 +68,37 @@ class Google extends Layout implements Provider
         $message->setAndroid($android);
 
         try {
-            return \Amp\Promise\wait(parallelMap($tokens, function ($token) use ($message, $client) {
-                $user_key = $token['user_key'];
-                $token = $token['token'];
+            $errors = [];
 
-                try {
-                    $message = clone $message;
-                    $message->setToken($token);
+            foreach(array_chunk($tokens, 200) as $chunk) {
+                $result = \Amp\Promise\wait(parallelMap($chunk, function ($token) use ($message, $client) {
+                    $user_key = $token['user_key'];
+                    $token = $token['token'];
 
-                    $send_body = new \Google_Service_FirebaseCloudMessaging_SendMessageRequest();
-                    $send_body->setMessage($message);
+                    try {
+                        $message = clone $message;
+                        $message->setToken($token);
 
-                    $client->projects_messages->send('projects/' . $this->json_config['project_id'], $send_body);
-                } catch (\Throwable $e) {
-                    $error = json_decode($e->getMessage(), true);
-                    if (is_array($error)) {
-                        $error = $error['error'];
-                        error_log("GOOGLE $token " . $error['message']);
-                        if (in_array($error['code'], [400, 404])) {
-                            return $user_key;
+                        $send_body = new \Google_Service_FirebaseCloudMessaging_SendMessageRequest();
+                        $send_body->setMessage($message);
+
+                        $client->projects_messages->send('projects/' . $this->json_config['project_id'], $send_body);
+                    } catch (\Throwable $e) {
+                        $error = json_decode($e->getMessage(), true);
+                        if (is_array($error)) {
+                            $error = $error['error'];
+                            error_log("GOOGLE $token " . $error['message']);
+
+                            if (in_array($error['code'], [400, 404])) {
+                                return $user_key;
+                            }
                         }
                     }
-                }
-            }));
+                }));
+
+                $errors = array_merge($errors, $result);
+            }
+            return $errors;
         } catch (MultiReasonException $e) {
             error_log($e->getMessage());
         }

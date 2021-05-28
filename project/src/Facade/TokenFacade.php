@@ -78,7 +78,12 @@ class TokenFacade
             if($push_tokens[$provider]){
                 /** @var \Push\Service\Providers\Provider $provider_service */
                 $provider_service = $this->$provider;
-                $delete = $provider_service->send($push_tokens[$provider], $push);
+
+                $delete = [];
+
+//                foreach(array_chunk($push_tokens[$provider], 200) as $user_keys) {
+                    $delete = array_merge($delete, $provider_service->send($push_tokens[$provider], $push));
+//                }
 
                 if($delete){
                     foreach ($delete as $key => $item){

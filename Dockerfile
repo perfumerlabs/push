@@ -70,6 +70,7 @@ ENV GOOGLE_FILE "google.json"
 ENV GOOGLE_URL "https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send"
 ENV HUAWEI_FILE "huawei.json"
 ENV HUAWEI_URL "https://push-api.cloud.huawei.com/v1/%s/messages:send"
+ENV APPLE_GOOGLE_CHUNK_SIZE 200
 
 EXPOSE 80
 

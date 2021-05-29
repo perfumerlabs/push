@@ -18,6 +18,7 @@ return [
 
     'push' => [
         'timezone' => 'Utc',
+        'chunk_size' => APPLE_GOOGLE_CHUNK_SIZE
     ],
 
     'google' => [

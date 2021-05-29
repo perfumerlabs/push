@@ -19,9 +19,9 @@ class Apple extends Layout implements Provider
     /** @var string */
     protected $bundle_id;
 
-    public function __construct(array $config)
+    public function __construct(array $config, $chunk_size)
     {
-        parent::__construct($config);
+        parent::__construct($config, $chunk_size);
 
         $this->bundle_id = $config['bundle_id'];
     }
@@ -51,7 +51,7 @@ class Apple extends Layout implements Provider
         try {
             $errors = [];
 
-            foreach(array_chunk($tokens, 200) as $chunk) {
+            foreach(array_chunk($tokens, ceil(count($tokens)/$this->chunk_size)) as $chunk) {
                 $result = \Amp\Promise\wait(parallelMap($chunk, function ($token) use ($data) {
                     $user_key = $token['user_key'];
                     $token = $token['token'];
@@ -76,7 +76,9 @@ class Apple extends Layout implements Provider
                     }
                 }));
 
-                $errors = array_merge($errors, $result);
+                if($result) {
+                    $errors = array_merge($errors, $result);
+                }
             }
 
             return $errors;

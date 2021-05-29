@@ -12,10 +12,13 @@ class Layout
 
     private $url;
 
-    public function __construct(array $config)
+    public $chunk_size;
+
+    public function __construct(array $config, $chunk_size)
     {
         $this->config_file = $config['file'];
         $this->url = $config['url'];
+        $this->chunk_size = $chunk_size;
     }
 
     public function getFileDir()

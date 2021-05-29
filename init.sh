@@ -29,8 +29,8 @@ GOOGLE_URL_SED=${GOOGLE_URL//\//\\\/}
 GOOGLE_URL_SED=${GOOGLE_URL_SED//\./\\\.}
 HUAWEI_URL_SED=${HUAWEI_URL//\//\\\/}
 HUAWEI_URL_SED=${HUAWEI_URL_SED//\./\\\.}
-#APPLE_GOOGLE_CHUNK_SIZE_SED=${APPLE_GOOGLE_CHUNK_SIZE//\//\\\/}
-#APPLE_GOOGLE_CHUNK_SIZE_SED=${APPLE_GOOGLE_CHUNK_SIZE_SED//\./\\\.}
+APPLE_GOOGLE_CHUNK_SIZE_SED=${APPLE_GOOGLE_CHUNK_SIZE//\//\\\/}
+APPLE_GOOGLE_CHUNK_SIZE_SED=${APPLE_GOOGLE_CHUNK_SIZE_SED//\./\\\.}
 
 sed -i "s/error_log = \/var\/log\/php7.4-fpm.log/error_log = \/dev\/stdout/g" /etc/php/7.4/fpm/php-fpm.conf
 sed -i "s/;error_log = syslog/error_log = \/dev\/stdout/g" /etc/php/7.4/fpm/php.ini
@@ -61,9 +61,7 @@ sed -i "s/APPLE_BUNDLE_ID/$APPLE_BUNDLE_ID_SED/g" /opt/push/src/Resource/config/
 sed -i "s/APPLE_URL/$APPLE_URL_SED/g" /opt/push/src/Resource/config/resources_shared.php
 sed -i "s/GOOGLE_URL/$GOOGLE_URL_SED/g" /opt/push/src/Resource/config/resources_shared.php
 sed -i "s/HUAWEI_URL/$HUAWEI_URL_SED/g" /opt/push/src/Resource/config/resources_shared.php
-sed -i "s/PHP_MAX_EXECUTION_TIME/$PHP_MAX_EXECUTION_TIME_SED/g" /etc/nginx/sites/default.conf
-#sed -i "s/APPLE_GOOGLE_CHUNK_SIZE/$APPLE_GOOGLE_CHUNK_SIZE_SED/g" /opt/push/src/Service/Provider/Apple.php
-#sed -i "s/APPLE_GOOGLE_CHUNK_SIZE/$APPLE_GOOGLE_CHUNK_SIZE_SED/g" /opt/push/src/Service/Provider/Google.php
+sed -i "s/APPLE_GOOGLE_CHUNK_SIZE/$APPLE_GOOGLE_CHUNK_SIZE_SED/g" /opt/push/src/Resource/config/resources_shared.php
 sed -i "s/PG_HOST/$PG_HOST_SED/g" /opt/push/src/Resource/propel/connection/propel.php
 sed -i "s/PG_PORT/$PG_PORT/g" /opt/push/src/Resource/propel/connection/propel.php
 sed -i "s/PG_DATABASE/$PG_DATABASE/g" /opt/push/src/Resource/propel/connection/propel.php

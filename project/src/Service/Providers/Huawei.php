@@ -12,9 +12,9 @@ class Huawei extends Layout implements Provider
     /** @var array */
     protected $json_config;
 
-    public function __construct(array $config)
+    public function __construct(array $config, $chunk_size)
     {
-        parent::__construct($config);
+        parent::__construct($config, $chunk_size);
 
         $this->json_config = json_decode(file_get_contents($this->getFileDir()), true);
     }

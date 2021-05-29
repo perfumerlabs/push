@@ -15,9 +15,9 @@ class Google extends Layout implements Provider
     /** @var array */
     protected $json_config;
 
-    public function __construct(array $config)
+    public function __construct(array $config, $chunk_size)
     {
-        parent::__construct($config);
+        parent::__construct($config, $chunk_size);
 
         $this->json_config = json_decode(file_get_contents($this->getFileDir()), true);
 
@@ -70,7 +70,7 @@ class Google extends Layout implements Provider
         try {
             $errors = [];
 
-            foreach(array_chunk($tokens, 200) as $chunk) {
+            foreach(array_chunk($tokens, ceil(count($tokens)/$this->chunk_size)) as $chunk) {
                 $result = \Amp\Promise\wait(parallelMap($chunk, function ($token) use ($message, $client) {
                     $user_key = $token['user_key'];
                     $token = $token['token'];
@@ -96,7 +96,9 @@ class Google extends Layout implements Provider
                     }
                 }));
 
-                $errors = array_merge($errors, $result);
+                if($result) {
+                    $errors = array_merge($errors, $result);
+                }
             }
             return $errors;
         } catch (MultiReasonException $e) {

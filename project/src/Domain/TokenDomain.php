@@ -29,16 +29,20 @@ class TokenDomain
     {
         $push_token = $this->getRepository()->getOneByCustomerToken($user);
 
-        $push_token->fromArray([$provider => $token], PushTokenTableMap::TYPE_FIELDNAME);
-        $push_token->save();
+        if($push_token->getByName($provider, PushTokenTableMap::TYPE_FIELDNAME) !== $token){
+            $push_token->setByName($provider, $token, PushTokenTableMap::TYPE_FIELDNAME);
+            $push_token->save();
+        }
     }
 
     public function removeToken($user, $provider)
     {
         $push_token = $this->getRepository()->getOneByCustomerToken($user);
 
-        $push_token->fromArray([$provider => null], PushTokenTableMap::TYPE_FIELDNAME);
-        $push_token->save();
+        if($push_token->getByName($provider, PushTokenTableMap::TYPE_FIELDNAME)){
+            $push_token->setByName($provider, null, PushTokenTableMap::TYPE_FIELDNAME);
+            $push_token->save();
+        }
     }
 
     public function removeTokens($users, $provider)

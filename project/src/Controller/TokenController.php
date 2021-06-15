@@ -46,9 +46,6 @@ class TokenController extends LayoutController
         $this->validateOnConst($provider, 'provider', PushToken::getProviders());
         $this->validateNotRegex($user, 'user', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
 
-        $con = Propel::getWriteConnection(PushTokenTableMap::DATABASE_NAME);
-        $con->beginTransaction();
-
         try {
             /** @var TokenDomain $domain */
             $domain = $this->s('domain.token');
@@ -59,11 +56,7 @@ class TokenController extends LayoutController
                 'provider' => $provider,
                 'token' => $token,
             ]]);
-
-            $con->commit();
         } catch (\Throwable $e) {
-            $con->rollBack();
-
             $this->forward('error', 'internalServerError', [$e]);
         }
     }
@@ -78,17 +71,11 @@ class TokenController extends LayoutController
         $this->validateOnConst($provider, 'provider', PushToken::getProviders());
         $this->validateNotRegex($user, 'user', "/[-!$%^&*()+|~=`{}\[\]:\";'<>?,.\/]/");
 
-        $con = Propel::getWriteConnection(PushTokenTableMap::DATABASE_NAME);
-        $con->beginTransaction();
-
         try {
             /** @var TokenDomain $domain */
             $domain = $this->s('domain.token');
             $domain->removeToken($user, $provider);
-
-            $con->commit();
         } catch (\Throwable $e) {
-            $con->rollBack();
             $this->forward('error', 'internalServerError', [$e]);
         }
     }

@@ -45,7 +45,9 @@ sed -i "s/group = www-data/group = push/g" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/pm = dynamic/pm = static/g" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/pm.max_children = 5/pm.max_children = ${PHP_PM_MAX_CHILDREN}/g" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/;pm.max_requests = 500/pm.max_requests = ${PHP_PM_MAX_REQUESTS}/g" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = ${PHP_MAX_EXECUTION_TIME}/g" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/max_execution_time = 30/max_execution_time = ${PHP_MAX_EXECUTION_TIME}/g" /etc/php/7.4/fpm/php.ini
+sed -i "s/PHP_MAX_EXECUTION_TIME/${PHP_MAX_EXECUTION_TIME}/g" /etc/nginx/nginx.conf
 sed -i "s/listen.owner = www-data/listen.owner = push/g" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/listen.group = www-data/listen.group = push/g" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/;catch_workers_output = yes/catch_workers_output = yes/g" /etc/php/7.4/fpm/pool.d/www.conf

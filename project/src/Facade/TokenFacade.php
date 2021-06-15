@@ -127,7 +127,7 @@ class TokenFacade
             }
         }
 
-        $this->log->log($tokens, $push);
+        $this->log->log($tokens, $push, null);
 
         return $delete;
     }

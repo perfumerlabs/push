@@ -21,7 +21,8 @@ class Queue
                         'worker' => $queue_worker,
                         'url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/queue/send',
                         'method' => 'post',
-                        'json' => $data
+                        'json' => $data,
+                        'timeout' => 120
                     ]
                 ]);
 

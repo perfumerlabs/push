@@ -26,7 +26,15 @@ return [
     'facade.token' => [
         'shared' => true,
         'class' => 'Push\\Facade\\TokenFacade',
-        'arguments' => ['#domain.token', '#domain.log', '#repository.token', '#providers.google', '#providers.huawei', '#providers.apple']
+        'arguments' => ['#domain.token',
+            '#domain.log',
+            '#repository.token',
+            '#providers.google',
+            '#providers.huawei',
+            '#providers.apple',
+            '#queue',
+            '@push/chunk_size'
+        ]
     ],
 
     'providers.google' => [
@@ -51,5 +59,11 @@ return [
         'shared' => true,
         'class' => 'Push\\Service\\Providers\\Huawei',
         'arguments' => ['*huawei', '@push/chunk_size']
+    ],
+
+    'queue' => [
+        'shared' => true,
+        'class' => 'Push\\Service\\Queue',
+        'arguments' => ['@queue/host']
     ],
 ];

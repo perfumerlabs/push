@@ -55,6 +55,7 @@ RUN set -x\
     && chmod +x /usr/local/bin/init.sh
 
 ENV PUSH_TIMEZONE "Utc"
+ENV QUEUE_HOST "http://queue"
 ENV PG_HOST postgresql
 ENV PG_PORT 5432
 ENV PG_DATABASE microservices
@@ -70,7 +71,7 @@ ENV GOOGLE_FILE "google.json"
 ENV GOOGLE_URL "https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send"
 ENV HUAWEI_FILE "huawei.json"
 ENV HUAWEI_URL "https://push-api.cloud.huawei.com/v1/%s/messages:send"
-ENV APPLE_GOOGLE_CHUNK_SIZE 3
+ENV CHUNK_SIZE 300
 
 EXPOSE 80
 

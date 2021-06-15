@@ -9,6 +9,7 @@ class SendController extends LayoutController
     public function post()
     {
         $users = $this->f('user');
+        $queue_worker = $this->f('queue_worker');
 
         $this->validateNotEmpty($users, 'user');
 
@@ -37,7 +38,7 @@ class SendController extends LayoutController
 
         /** @var \Push\Facade\TokenFacade $token_facade */
         $token_facade = $this->s('facade.token');
-        $errors = $token_facade->sendPush($users, $push);
+        $errors = $token_facade->sendPush($users, $push, $queue_worker);
 
         if($errors){
             $this->setContent(['errors' => $errors]);

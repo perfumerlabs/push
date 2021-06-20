@@ -70,7 +70,7 @@ class Google extends Layout implements Provider
         try {
             $errors = [];
 
-            foreach(array_chunk($tokens, ceil(count($tokens)/$this->chunk_size)) as $chunk) {
+            foreach(array_chunk($tokens, ceil(count($tokens)/ceil($this->chunk_size / 4))) as $chunk) {
                 $result = \Amp\Promise\wait(parallelMap($chunk, function ($token) use ($message, $client) {
                     $user_key = $token['user_key'];
                     $token = $token['token'];

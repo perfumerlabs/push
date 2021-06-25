@@ -123,11 +123,11 @@ class TokenFacade
             }
 
             if($delete) {
-                $this->getDomain()->removeTokens($delete, $provider);
+//                $this->getDomain()->removeTokens($delete, $provider);
             }
         }
 
-        $this->log->log($tokens, $push, null);
+//        $this->log->log($tokens, $push, null);
 
         return $delete;
     }

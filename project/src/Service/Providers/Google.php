@@ -15,7 +15,7 @@ class Google extends Layout implements Provider
     {
         parent::__construct($config, $chunk_size);
 
-        if($this->getFileDir()){
+        if($this->getFileDir() && file_exists($this->getFileDir())){
             $this->json_config = json_decode(file_get_contents($this->getFileDir()), true);
         }
 

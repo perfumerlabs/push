@@ -22,7 +22,7 @@ return [
     ],
 
     'gorush' => [
-        'host' => 'GORUSH_HOST'
+        'host' => 'GORUSH_HOST',
     ],
 
     'queue' => [

@@ -3,7 +3,7 @@ What is it
 
 Docker container for send push on all devices with one api
 
-Installation
+Installation with common engine
 ============
 
 ```bash
@@ -21,8 +21,28 @@ docker run \
 -e GOOGLE_URL="https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send" \
 -e HUAWEI_FILE="huawei.json" \
 -e HUAWEI_URL="https://push-api.cloud.huawei.com/v1/%s/messages:send" \
+-e PUSH_ENGINE="common" \
 -d perfumerlabs/push:v1.0.0
 ```
+
+Installation with gorush engine
+============
+
+```bash
+docker run \
+-p 80:80/tcp \
+-e PG_HOST=db \
+-e PG_PORT=5432 \
+-e PG_DATABASE=push_db \
+-e PG_USER=user \
+-e PG_PASSWORD=password \
+-e GORUSH_HOST="http://gorush:8088" \
+-e PUSH_ENGINE="gorush" \
+-e APPLE_BUNDLE_ID="app" \
+-d perfumerlabs/push:v1.0.0
+```
+
+Microservice appleboy/gorush must be run if engine is gorush.
 
 Database must be created before container startup.
 
@@ -45,6 +65,8 @@ Environment variables
 - PHP_PM_MAX_REQUESTS - number of FPM max requests. Default value is 500.
 - ADMIN_USER - login for sign in admin panel. Optional.
 - ADMIN_PASSWORD - password for sign in admin panel. Optional.
+- GORUSH_HOST - Gorush microservice host. Optional.
+- PUSH_ENGINE - Push engine. Optional. Default value "common". Can be "gorush"
 
 Volumes
 =======

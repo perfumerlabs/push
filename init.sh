@@ -33,6 +33,8 @@ CHUNK_SIZE_SED=${CHUNK_SIZE//\//\\\/}
 CHUNK_SIZE_SED=${CHUNK_SIZE_SED//\./\\\.}
 QUEUE_HOST_SED=${QUEUE_HOST//\//\\\/}
 QUEUE_HOST_SED=${QUEUE_HOST_SED//\./\\\.}
+GORUSH_HOST_SED=${GORUSH_HOST//\//\\\/}
+GORUSH_HOST_SED=${GORUSH_HOST_SED//\./\\\.}
 
 sed -i "s/error_log = \/var\/log\/php7.4-fpm.log/error_log = \/dev\/stdout/g" /etc/php/7.4/fpm/php-fpm.conf
 sed -i "s/;error_log = syslog/error_log = \/dev\/stdout/g" /etc/php/7.4/fpm/php.ini
@@ -67,6 +69,8 @@ sed -i "s/GOOGLE_URL/$GOOGLE_URL_SED/g" /opt/push/src/Resource/config/resources_
 sed -i "s/HUAWEI_URL/$HUAWEI_URL_SED/g" /opt/push/src/Resource/config/resources_shared.php
 sed -i "s/CHUNK_SIZE/$CHUNK_SIZE_SED/g" /opt/push/src/Resource/config/resources_shared.php
 sed -i "s/QUEUE_HOST/$QUEUE_HOST_SED/g" /opt/push/src/Resource/config/resources_shared.php
+sed -i "s/PUSH_ENGINE/$PUSH_ENGINE/g" /opt/push/src/Resource/config/resources_shared.php
+sed -i "s/GORUSH_HOST/$GORUSH_HOST_SED/g" /opt/push/src/Resource/config/resources_shared.php
 sed -i "s/PG_HOST/$PG_HOST_SED/g" /opt/push/src/Resource/propel/connection/propel.php
 sed -i "s/PG_PORT/$PG_PORT/g" /opt/push/src/Resource/propel/connection/propel.php
 sed -i "s/PG_DATABASE/$PG_DATABASE/g" /opt/push/src/Resource/propel/connection/propel.php

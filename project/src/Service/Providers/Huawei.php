@@ -4,8 +4,6 @@ namespace Push\Service\Providers;
 
 use Envms\FluentPDO\Query;
 use GuzzleHttp\Client;
-use Propel\Runtime\Propel;
-use Push\Model\Map\PushTokenTableMap;
 
 class Huawei extends Layout implements Provider
 {
@@ -16,7 +14,9 @@ class Huawei extends Layout implements Provider
     {
         parent::__construct($config, $chunk_size);
 
-        $this->json_config = json_decode(file_get_contents($this->getFileDir()), true);
+        if ($this->getFileDir()) {
+            $this->json_config = json_decode(file_get_contents($this->getFileDir()), true);
+        }
     }
 
     public function getUrl()

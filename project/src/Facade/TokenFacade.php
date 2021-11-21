@@ -3,13 +3,16 @@
 namespace Push\Facade;
 
 
+use Project\Model\GoRush\Notifications;
 use Push\Domain\LogDomain;
 use Push\Domain\TokenDomain;
 use Push\Model\PushToken;
 use Push\Repository\TokenRepository;
+use Push\Service\GoRush;
 use Push\Service\Providers\Apple;
 use Push\Service\Providers\Google;
 use Push\Service\Providers\Huawei;
+use Push\Service\Providers\Provider;
 use Push\Service\Queue;
 
 class TokenFacade
@@ -54,7 +57,20 @@ class TokenFacade
      */
     protected int $chunk_size;
 
-    public function __construct(TokenDomain $token_domain, LogDomain $log_domain, TokenRepository $token_repository, Google $google, Huawei $huawei, Apple $apple, Queue $queue, $chunk_size)
+    /**
+     * @var string
+     */
+    protected string $engine;
+
+    /**
+     * @var GoRush
+     */
+    protected GoRush $gorush;
+
+    const ENGINE_GORUSH = 'gorush';
+    const ENGINE_COMMON = 'common';
+
+    public function __construct(TokenDomain $token_domain, LogDomain $log_domain, TokenRepository $token_repository, Google $google, Huawei $huawei, Apple $apple, Queue $queue, array $config, GoRush $gorush)
     {
         $this->repository = $token_repository;
         $this->domain = $token_domain;
@@ -63,7 +79,10 @@ class TokenFacade
         $this->google = $google;
         $this->huawei = $huawei;
         $this->queue = $queue;
-        $this->chunk_size = $chunk_size;
+
+        $this->chunk_size = $config['chunk_size'];
+        $this->engine = $config['engine'];
+        $this->gorush = $gorush;
     }
 
     public function getRepository()
@@ -81,12 +100,57 @@ class TokenFacade
         return $this->log;
     }
 
-    public function sendPush(array $tokens, array $push, ?string $queue_worker)
+    public function getGoRush(): GoRush
+    {
+        return $this->gorush;
+    }
+
+    public function send(array $tokens, array $push, ?string $queue_worker)
     {
         $push_tokens = $this->getRepository()->getPushTokens($tokens);
 
-//        $errors = [];
+        if ($this->engine === $this::ENGINE_GORUSH){
+            $this->pushByGoRush($push_tokens, $push);
+        }else{
+            $this->pushByCommon($push_tokens, $push, $queue_worker);
+        }
+    }
 
+    protected function pushByGoRush(array $push_tokens, array $push)
+    {
+        $notifications = new Notifications();
+        foreach (PushToken::getProviders() as $provider){
+            if ($tokens = $push_tokens[$provider]) {
+                $tokens = array_column($tokens, 'token');
+                $model = null;
+                switch ($provider){
+                    case PushToken::PROVIDER_APPLE:
+                        $model = new \Project\Model\GoRush\Apple($tokens, $push);
+                        break;
+                    case PushToken::PROVIDER_GOOGLE:
+                        $model = new \Project\Model\GoRush\Google($tokens, $push);
+                        break;
+                    case PushToken::PROVIDER_WEB:
+                        $model = new \Project\Model\GoRush\Web($tokens, $push);
+                        break;
+                    case PushToken::PROVIDER_HUAWEI:
+                        $model = new \Project\Model\GoRush\Huawei($tokens, $push);
+                        break;
+                }
+                if ($model){
+//                    var_dump($model->toArray());exit();
+                    $notifications->addNotifications($model->toArray());
+                }
+            }
+        }
+
+        if ($notifications->getNotifications()){
+            $this->getGoRush()->send($notifications);
+        }
+    }
+
+    protected function pushByCommon(array $push_tokens, $push, $queue_worker)
+    {
         foreach (PushToken::getProviders() as $provider){
             if ($push_tokens[$provider]) {
                 if ($provider !== PushToken::PROVIDER_HUAWEI && $queue_worker && count($push_tokens[$provider]) > 1) {
@@ -98,19 +162,15 @@ class TokenFacade
                         ], $queue_worker);
                     }
                 } else {
-                    $errors[$provider] = $this->push($push_tokens[$provider], $provider, $push);
+                    $errors[$provider] = $this->pushCommon($push_tokens[$provider], $provider, $push);
                 }
             }
         }
-
-//        $this->log->log($push_tokens, $push, $errors);
-
-//        return $errors;
     }
 
-    public function push($tokens, $provider, $push)
+    protected function pushCommon($tokens, $provider, $push)
     {
-        /** @var \Push\Service\Providers\Provider $provider_service */
+        /** @var Provider $provider_service */
         $provider_service = $this->$provider;
 
         $delete = $provider_service->send($tokens, $push);
@@ -121,13 +181,7 @@ class TokenFacade
                     unset($delete[$key]);
                 }
             }
-
-            if($delete) {
-//                $this->getDomain()->removeTokens($delete, $provider);
-            }
         }
-
-//        $this->log->log($tokens, $push, null);
 
         return $delete;
     }

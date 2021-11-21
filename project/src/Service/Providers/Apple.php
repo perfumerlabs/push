@@ -3,15 +3,7 @@
 namespace Push\Service\Providers;
 
 use Amp\MultiReasonException;
-use App\Model\Transaction;
-use Envms\FluentPDO\Query;
-use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use Propel\Runtime\Propel;
-use Psr\Http\Message\ResponseInterface;
-use Push\Model\Map\PushTokenTableMap;
-use Stash\Pool;
 use function Amp\ParallelFunctions\parallelMap;
 
 class Apple extends Layout implements Provider

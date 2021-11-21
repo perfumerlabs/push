@@ -72,6 +72,9 @@ ENV GOOGLE_URL "https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:
 ENV HUAWEI_FILE "huawei.json"
 ENV HUAWEI_URL "https://push-api.cloud.huawei.com/v1/%s/messages:send"
 ENV CHUNK_SIZE 300
+ENV GORUSH_HOST "http://gorush:8088"
+#common or gorush
+ENV PUSH_ENGINE "common"
 
 EXPOSE 80
 

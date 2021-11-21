@@ -3,11 +3,7 @@
 namespace Push\Service\Providers;
 
 use Amp\MultiReasonException;
-use Envms\FluentPDO\Query;
 use Google\Client;
-use GuzzleHttp\Client as Guzzle;
-use Propel\Runtime\Propel;
-use Push\Model\Map\PushTokenTableMap;
 use function Amp\ParallelFunctions\parallelMap;
 
 class Google extends Layout implements Provider
@@ -19,7 +15,9 @@ class Google extends Layout implements Provider
     {
         parent::__construct($config, $chunk_size);
 
-        $this->json_config = json_decode(file_get_contents($this->getFileDir()), true);
+        if($this->getFileDir()){
+            $this->json_config = json_decode(file_get_contents($this->getFileDir()), true);
+        }
 
         putenv("GOOGLE_APPLICATION_CREDENTIALS=" . $this->getFileDir());
     }

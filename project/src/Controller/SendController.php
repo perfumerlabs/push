@@ -4,6 +4,8 @@
 namespace Push\Controller;
 
 
+use Push\Facade\TokenFacade;
+
 class SendController extends LayoutController
 {
     public function post()
@@ -36,12 +38,8 @@ class SendController extends LayoutController
             'sound' => $sound,
         ];
 
-        /** @var \Push\Facade\TokenFacade $token_facade */
+        /** @var TokenFacade $token_facade */
         $token_facade = $this->s('facade.token');
-        $errors = $token_facade->sendPush($users, $push, $queue_worker);
-
-        if($errors){
-            $this->setContent(['errors' => $errors]);
-        }
+        $token_facade->send($users, $push, $queue_worker);
     }
 }

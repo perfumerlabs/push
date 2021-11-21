@@ -33,7 +33,8 @@ return [
             '#providers.huawei',
             '#providers.apple',
             '#queue',
-            '@push/chunk_size'
+            '*push',
+            '#gorush'
         ]
     ],
 
@@ -65,5 +66,11 @@ return [
         'shared' => true,
         'class' => 'Push\\Service\\Queue',
         'arguments' => ['@queue/host']
+    ],
+
+    'gorush' => [
+        'shared' => true,
+        'class' => 'Push\\Service\\GoRush',
+        'arguments' => ['@gorush/host']
     ],
 ];

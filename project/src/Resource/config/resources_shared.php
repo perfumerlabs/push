@@ -17,7 +17,12 @@ return [
 
     'push' => [
         'timezone' => 'Utc',
-        'chunk_size' => CHUNK_SIZE
+        'chunk_size' => CHUNK_SIZE,
+        'engine' => 'PUSH_ENGINE'
+    ],
+
+    'gorush' => [
+        'host' => 'GORUSH_HOST'
     ],
 
     'queue' => [

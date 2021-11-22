@@ -44,7 +44,7 @@ class Apple extends Layout
         ];
 
         if ($this->getPayload()){
-            $array["data"] = $this->getPayload();
+            $array['data']['payload'] = $this->getPayload();
         }
 
         return $array;

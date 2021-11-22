@@ -8,11 +8,13 @@ abstract class Layout
 
     protected int $platform;
 
-    protected string $title;
+    protected ?string $title;
 
-    protected string $message;
+    protected ?string $message;
 
     protected array $payload;
+
+    protected ?string $sound;
 
     public function __construct(array $tokens, array $push)
     {
@@ -20,6 +22,23 @@ abstract class Layout
         $this->setMessage($push['text'] ?? null);
         $this->setTokens($tokens);
         $this->setPayload($push['payload']);
+        $this->setSound($push['sound'] ?? null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getSound(): string
+    {
+        return $this->sound;
+    }
+
+    /**
+     * @param string $sound
+     */
+    public function setSound(string $sound): void
+    {
+        $this->sound = $sound;
     }
 
     /**

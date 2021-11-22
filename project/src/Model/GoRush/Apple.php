@@ -47,6 +47,12 @@ class Apple extends Layout
             $array['data']['payload'] = $this->getPayload();
         }
 
+        if ($this->getSound()){
+            $array['sound'] = [
+                'name' => 'default',
+            ];
+        }
+
         return $array;
     }
 }

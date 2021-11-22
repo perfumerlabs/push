@@ -10,6 +10,7 @@ return [
                 $r->addRoute('DELETE', '/token', 'token.delete');
                 $r->addRoute('POST', '/send', 'send.post');
                 $r->addRoute('POST', '/queue/send', 'queue/send.post');
+                $r->addRoute('POST', '/gorush', 'gorush.post');
             });
         }
     ],

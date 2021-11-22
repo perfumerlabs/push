@@ -123,23 +123,25 @@ class TokenFacade
             if ($tokens = $push_tokens[$provider]) {
                 $tokens = array_column($tokens, 'token');
                 $model = null;
-                switch ($provider){
-                    case PushToken::PROVIDER_APPLE:
-                        $model = new \Project\Model\GoRush\Apple($tokens, $push);
-                        break;
-                    case PushToken::PROVIDER_GOOGLE:
-                        $model = new \Project\Model\GoRush\Google($tokens, $push);
-                        break;
-                    case PushToken::PROVIDER_WEB:
-                        $model = new \Project\Model\GoRush\Web($tokens, $push);
-                        break;
-                    case PushToken::PROVIDER_HUAWEI:
-                        $model = new \Project\Model\GoRush\Huawei($tokens, $push);
-                        break;
-                }
-                if ($model){
+                foreach(array_chunk($tokens, 1000) as $chunk) {
+                    switch ($provider) {
+                        case PushToken::PROVIDER_APPLE:
+                            $model = new \Project\Model\GoRush\Apple($chunk, $push);
+                            break;
+                        case PushToken::PROVIDER_GOOGLE:
+                            $model = new \Project\Model\GoRush\Google($chunk, $push);
+                            break;
+                        case PushToken::PROVIDER_WEB:
+                            $model = new \Project\Model\GoRush\Web($chunk, $push);
+                            break;
+                        case PushToken::PROVIDER_HUAWEI:
+                            $model = new \Project\Model\GoRush\Huawei($chunk, $push);
+                            break;
+                    }
+                    if ($model) {
 //                    var_dump($model->toArray());exit();
-                    $notifications->addNotifications($model->toArray());
+                        $notifications->addNotifications($model->toArray());
+                    }
                 }
             }
         }

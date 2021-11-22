@@ -24,7 +24,7 @@ class GorushController extends LayoutController
             return;
         }
 
-        if (!in_array($error, ["invalid registration token", "BadDeviceToken"])){
+        if (!in_array($error, ["invalid registration token", "BadDeviceToken", "Unregistered", "unregistered device"])){
             return;
         }
 

@@ -22,21 +22,21 @@ abstract class Layout
         $this->setMessage($push['text'] ?? null);
         $this->setTokens($tokens);
         $this->setPayload($push['payload']);
-        $this->setSound($push['sound'] ?? null);
+        $this->setSound($push['sound'] ?? 'default');
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getSound(): string
+    public function getSound(): ?string
     {
         return $this->sound;
     }
 
     /**
-     * @param string $sound
+     * @param ?string $sound
      */
-    public function setSound(string $sound): void
+    public function setSound(?string $sound): void
     {
         $this->sound = $sound;
     }

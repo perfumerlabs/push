@@ -4,9 +4,9 @@ return [
         'bin' => 'vendor/bin/propel',
         'project' => 'push',
         'database' => 'pgsql',
-        'dsn' => 'pgsql:host=PG_HOST;port=PG_PORT;dbname=PG_DATABASE',
-        'db_user' => 'PG_USER',
-        'db_password' => 'PG_PASSWORD',
+        'dsn' => 'pgsql:host=host.docker.internal;port=5432;dbname=push',
+        'db_user' => 'postgres',
+        'db_password' => 'root',
         'platform' => 'pgsql',
         'config_dir' => 'src/Resource/propel/connection',
         'schema_dir' => 'src/Resource/propel/schema',
@@ -17,29 +17,29 @@ return [
 
     'push' => [
         'timezone' => 'Utc',
-        'chunk_size' => CHUNK_SIZE,
-        'engine' => 'PUSH_ENGINE'
+        'chunk_size' => 500,
+        'engine' => 'gorush'
     ],
 
     'gorush' => [
-        'host' => 'GORUSH_HOST',
+        'host' => 'http://gorush:8088',
     ],
 
     'queue' => [
-        'host' => 'QUEUE_HOST'
+        'host' => 'http://queue'
     ],
 
     'google' => [
-        'file' => 'GOOGLE_FILE',
-        'url' => 'GOOGLE_URL',
+        'file' => 'google_prod.json',
+        'url' => 'https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send',
     ],
     'apple' => [
-        'file' => 'APPLE_FILE',
-        'url' => 'APPLE_URL',
-        'bundle_id' => 'APPLE_BUNDLE_ID',
+        'file' => 'dev.pem',
+        'url' => 'https://api.sendbox.push.apple.com:443/3/device/',
+        'bundle_id' => 'kz.naimi.app',
     ],
     'huawei' => [
-        'file' => 'HUAWEI_FILE',
-        'url' => 'HUAWEI_URL',
+        'file' => 'huawei_prod.json',
+        'url' => 'https://push-api.cloud.huawei.com/v1/%s/messages:send',
     ],
 ];
